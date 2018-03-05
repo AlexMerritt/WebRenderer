@@ -1,7 +1,9 @@
 #include <stdio.h>
-#include <emscripten/emscripten.h>
 #include <string>
+
 #include "Application.h"
+#include "Util.h"
+
 
 using namespace std;
 
@@ -13,10 +15,19 @@ extern "C"{
 
 Application* pApplication = 0;
 
-void Initialize(){
-    pApplication = new Application();
+void Initialize()
+{
+    if(!pApplication)
+    {
+        pApplication = new Application();
+    }
+    else
+    {
+        Log("Application already initialized");
+    }
 }
 
-void Update(){
+void Update()
+{
     pApplication->Frame();
 }

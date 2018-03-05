@@ -1,5 +1,5 @@
-#ifndef _APPLICATION_
-#define _APPLICATION_
+#ifndef __APPLICATION__
+#define __APPLICATION__
 
 #include <string>
 
