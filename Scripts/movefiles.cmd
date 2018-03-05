@@ -1,3 +1,5 @@
+@echo off
+
 echo ---------- Moving Build Files ----------
 
 rd /s /q %jsdst%

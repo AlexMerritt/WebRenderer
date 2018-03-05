@@ -1,3 +1,4 @@
+@echo off
 set src=C:\Projects\WebRenderer
 set scriptdir=%src%\Scripts
 
