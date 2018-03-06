@@ -10,8 +10,22 @@
       function Update(){
           Module.ccall("Update", "null", "null", "null")
       }
-    </script>
+    </script>   
+  </head>
+  <body>
+      <div class="emscripten_border">
+          <canvas class="emscripten" id="display" oncontextmenu="event.preventDefault()"></canvas>
+    </div>
+    <button onclick="StartApp()">Initialize</button>
+    <button onclick="Frame()">Update</button>
 
+
+
+    <!-- 
+      The scripts are needed to be included in the body becuase
+      they need to access some of the elements of the dom and 
+      need to be created before the scripts are loaded
+    -->
     <script type='text/javascript'>
       var Module = {
         preRun: [],
@@ -32,13 +46,17 @@
               element.scrollTop = element.scrollHeight; // focus on bottom
             }
           };
+        })(),
+        canvas: (function() {
+          var canvas = document.getElementById('display');
+          // As a default initial behavior, pop up an alert when webgl context is lost. To make your
+          // application robust, you may want to override this behavior before shipping!
+          // See http://www.khronos.org/registry/webgl/specs/latest/1.0/#5.15.2
+          canvas.addEventListener("webglcontextlost", function(e) { alert('WebGL context lost. You will need to reload the page.'); e.preventDefault(); }, false);
+          return canvas;
         })()
       };
     </script>
     {{{ SCRIPT }}}
-  </head>
-  <body>
-    <button onclick="StartApp()">Initialize</button>
-    <button onclick="Frame()">Update</button>
   </body>
 </html>

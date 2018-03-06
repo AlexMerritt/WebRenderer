@@ -1,5 +1,5 @@
-#ifndef __UTILZ__
-#define __UTILZ__
+#ifndef __UTIL__
+#define __UTIL__
 
 #include <string>
 

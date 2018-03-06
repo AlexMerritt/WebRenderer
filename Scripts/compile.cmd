@@ -39,7 +39,7 @@ if EXIST %file% (
     set coll=!coll! %appdir%\!something!
   )
 
-  set buildcall=call emcc -o %bindir%\Index.html !coll! -O1 -s WASM=1 --shell-file %libdir%/template.html -s EXPORTED_FUNCTIONS="['_Initialize', '_Update']"  -s EXTRA_EXPORTED_RUNTIME_METHODS="['ccall']" -s ASSERTIONS=1  
+  set buildcall=call emcc -o %bindir%\Index.html !coll! -O1 -s WASM=1 --shell-file %libdir%/template.html -s EXPORTED_FUNCTIONS="['_Initialize', '_Update']"  -s EXTRA_EXPORTED_RUNTIME_METHODS="['ccall']" -s ASSERTIONS=1 -s ALLOW_MEMORY_GROWTH=1 -s USE_WEBGL2=1
   call :Compile buildcall
   EXIT /b 0
 :end
