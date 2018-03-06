@@ -13,6 +13,8 @@ public:
 
 private:
     GraphicsDevice* m_pDevice;
+
+    ShaderProgram* m_pProgram;
 };
 
 #endif
