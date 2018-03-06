@@ -1,8 +1,9 @@
 #ifndef __APPLICATION__
 #define __APPLICATION__
 
-#include <string>
+#include "Renderer/GraphicsDevice.h"
 
+#include <string>
 
 class Application{
 public:
@@ -17,6 +18,7 @@ protected:
 
 protected:
     std::string m_strAppName;
+    GraphicsDevice* m_pGraphicsDevice;
 };
 
 #endif

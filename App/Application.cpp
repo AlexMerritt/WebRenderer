@@ -1,8 +1,6 @@
 #include "Application.h"
 #include "Util.h"
-#include <GLES2/gl2.h>
-#include <EGL/egl.h>
-#include "html5.h"
+
 
 EMSCRIPTEN_WEBGL_CONTEXT_HANDLE context;
 
@@ -20,13 +18,8 @@ Application::Application()
 
 void Application::Initialize()
 {
-    EmscriptenWebGLContextAttributes contextAttrs;
-    EmscriptenWebGLContextAttributes attribs;
-    emscripten_webgl_init_context_attributes(&attribs);
-    attribs.alpha = false;
-    attribs.enableExtensionsByDefault = false;
-    EMSCRIPTEN_WEBGL_CONTEXT_HANDLE context =  emscripten_webgl_create_context("display", &attribs);
-    emscripten_webgl_make_context_current(context);
+    m_pGraphicsDevice = new GraphicsDevice();
+    m_pGraphicsDevice->Initialize();
 
     Log("Application Initalized");
 }
@@ -35,6 +28,8 @@ void Application::Frame()
 {
     std::string strMessage = "Processing Frame for applcation: " + m_strAppName;
     Log(strMessage);
+
+    m_pGraphicsDevice->Clear();
 
     Update();
     Render();
