@@ -2,6 +2,11 @@
 setlocal enabledelayedexpansion
 
 set filename=App.pro
+set outFile=Index.html
+set htmlTemplate=template.html
+set optimizationLevel=-O1
+set /a numAdditionalFlags=0
+REM set additionalFlags=WASM=1,EXPORTED_FUNCTIONS="['_Initialize', '_Update']",EXTRA_EXPORTED_RUNTIME_METHODS="['ccall']"
 
 if "%appdir%"=="" (
   set EnvError="appdir" not defined. 
@@ -36,10 +41,19 @@ if EXIST %file% (
 
   for /L %%i in (1,1,%n%) do (
     call set something=%%array[%%i]%%
-    set coll=!coll! %appdir%\!something!
+    set sourceFiles=!sourceFiles! %appdir%\!something!
+    
   )
 
-  set buildcall=call emcc -o %bindir%\Index.html !coll! -O1 -s WASM=1 --shell-file %libdir%/template.html -s EXPORTED_FUNCTIONS="['_Initialize', '_Update']"  -s EXTRA_EXPORTED_RUNTIME_METHODS="['ccall']" -s ASSERTIONS=1 -s ALLOW_MEMORY_GROWTH=1 -s USE_WEBGL2=1
+  call :SetupAdditionalBuildFlags
+
+  set buildcall=call emcc -o %bindir%\%outFile%!sourceFiles! %optimizationLevel% --shell-file %libdir%/%htmlTemplate%
+
+  for /L %%j in (0,1,%numAdditionalFlags%) do (
+    call set addtl=%%additionalFlags[%%j]%%
+    call set buildcall=!buildcall! !addtl!
+  )
+
   call :Compile buildcall
   EXIT /b 0
 :end
@@ -55,6 +69,23 @@ if EXIST %file% (
   EXIT /b 0
 :end
 
+:SetupAdditionalBuildFlags
+  call :AddFlag WASM 1
+  call :AddFlag ASSERTIONS 1
+  call :AddFlag ALLOW_MEMORY_GROWTH 1
+  call :AddFlag USE_WEBGL2 1
+  call :AddFlag EXPORTED_FUNCTIONS "['_Initialize', '_Update']"
+  call :AddFlag EXTRA_EXPORTED_RUNTIME_METHODS "['ccall']"
+
+  EXIT /b
+:end
+
+:AddFlag
+  call set additionalFlags[%%numAdditionalFlags%%]=-s %1=%2
+  set /a numAdditionalFlags+=1
+  EXIT /b
+:end
+
 REM Sample emcc call for reference
 REM call emcc -o %bindir%\Index.html %appdir%\Application.cpp %appdir%\main.cpp -O1 -s WASM=1 --shell-file %libdir%/template.html -s EXPORTED_FUNCTIONS="['_Initialize', '_Update']"  -s EXTRA_EXPORTED_RUNTIME_METHODS="['ccall']" -s ASSERTIONS=1
 :Compile
@@ -68,5 +99,6 @@ REM call emcc -o %bindir%\Index.html %appdir%\Application.cpp %appdir%\main.cpp 
   call echo ---------- Compile Finished ----------
   call echo.
   endlocal
+  EXIT /b
 :end
 endlocal
