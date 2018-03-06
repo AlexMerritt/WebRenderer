@@ -1,7 +1,7 @@
 #ifndef __APPLICATION__
 #define __APPLICATION__
 
-#include "Renderer/GraphicsDevice.h"
+#include "Renderer/Renderer.h"
 
 #include <string>
 
@@ -18,7 +18,7 @@ protected:
 
 protected:
     std::string m_strAppName;
-    GraphicsDevice* m_pGraphicsDevice;
+    Renderer* m_pRenderer;
 };
 
 #endif
