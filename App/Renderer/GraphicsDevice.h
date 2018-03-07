@@ -7,8 +7,17 @@
 
 struct ShaderProgram{};
 
-struct GLProgram : public ShaderProgram{
+struct GLProgram : public ShaderProgram
+{
     GLuint Program;
+};
+
+struct Buffer {};
+
+struct GLBuffer
+{
+    GLuint Buffer;
+    int NumVerts;
 };
 
 class GraphicsDevice
@@ -18,6 +27,10 @@ public:
     void Initialize();
 
     ShaderProgram* CreateProgram(char* vertexShaderText, char* fragmentShaderText);
+    Buffer* CreateVertexBuffer(float* verticies, int iNumVerts);
+    Buffer* CreateIndexBuffer(int* verticies, int iNumVerts);
+
+    void Draw(Buffer* pBuffer, ShaderProgram* pProgram);
 
     void Clear();
 

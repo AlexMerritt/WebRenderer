@@ -4,6 +4,7 @@
 
 void Log(std::string strText)
 {
-    std::string strMessage = "console.log('" + strText + "')";
-    emscripten_run_script(strMessage.c_str());
+    printf("%s\n", strText.c_str());
+    // std::string strMessage = "console.log('" + strText + "')";
+    // emscripten_run_script(strMessage.c_str());
 }
