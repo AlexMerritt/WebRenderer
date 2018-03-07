@@ -182,7 +182,7 @@ Buffer* GraphicsDevice::CreateIndexBuffer(BufferData* pData)
 //     glUseProgram(pPro->Program);
 // }
 
-void Render(ShaderProgram* pProgram, VertexBuffer* pVertBuffer, Buffer* pIndexBuffer)
+void GraphicsDevice::Render(ShaderProgram* pProgram, VertexBuffer* pVertBuffer, Buffer* pIndexBuffer)
 {
     GLProgram* pPro = (GLProgram*)pProgram;
     glUseProgram(pPro->Program);

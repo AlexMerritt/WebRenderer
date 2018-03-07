@@ -35,8 +35,11 @@ void Renderer::Initialize()
     int inds[] = {
         0, 1, 2
     };
-    BufferData* vbd = new BufferData(verticies, numVerts, sizeof(Vector4));
-    BufferData* ibd = new BufferData(inds, numInds, sizeof(unsigned int));
+    BufferData* vbd = new BufferData(verts, 3, 3 * sizeof(float));
+    m_pVertexBuffer = m_pDevice->CreateVertexBuffer(vbd);
+
+    BufferData* idb = new BufferData(inds, 3, sizeof(unsigned int));
+    m_pIndexBuffer = m_pDevice->CreateIndexBuffer(idb);
 
     Log("Renderer Initialized");
 }
@@ -46,4 +49,6 @@ void Renderer::DrawScene()
     Log("Renderer Draw Scene");
 
     m_pDevice->Clear();
+
+    m_pDevice->Render(m_pProgram, m_pVertexBuffer, m_pIndexBuffer);
 }

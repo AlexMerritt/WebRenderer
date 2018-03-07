@@ -15,7 +15,7 @@ private:
     GraphicsDevice* m_pDevice;
 
     ShaderProgram* m_pProgram;
-    Buffer* m_pVertexBuffer;
+    VertexBuffer* m_pVertexBuffer;
     Buffer* m_pIndexBuffer;
 };
 
