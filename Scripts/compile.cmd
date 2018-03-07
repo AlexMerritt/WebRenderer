@@ -93,10 +93,10 @@ REM call emcc -o %bindir%\Index.html %appdir%\Application.cpp %appdir%\main.cpp 
   setlocal
   call echo ---------- Starting Compile ----------
   call echo !%1!
-  call !%1!
-
   call echo.
-  call echo Build Succeeded
+  call !%1!
+  
+  call echo.
   call echo ---------- Compile Finished ----------
   call echo.
   endlocal
