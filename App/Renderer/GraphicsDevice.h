@@ -1,9 +1,11 @@
 #ifndef __GRAPHICS_DEVICE__
 #define __GRAPHICS_DEVICE__
 
-#include <GLES2/gl2.h>
+#include <GLES3/gl3.h>
 #include <EGL/egl.h>
 #include "../html5.h"
+
+#include "Buffer.h"
 
 struct ShaderProgram{};
 
@@ -12,13 +14,13 @@ struct GLProgram : public ShaderProgram
     GLuint Program;
 };
 
-struct Buffer {};
+// struct Buffer {};
 
-struct GLBuffer
-{
-    GLuint Buffer;
-    int NumVerts;
-};
+// struct GLBuffer
+// {
+//     GLuint Buffer;
+//     int NumVerts;
+// };
 
 class GraphicsDevice
 {
@@ -27,10 +29,11 @@ public:
     void Initialize();
 
     ShaderProgram* CreateProgram(char* vertexShaderText, char* fragmentShaderText);
-    Buffer* CreateVertexBuffer(float* verticies, int iNumVerts);
-    Buffer* CreateIndexBuffer(int* verticies, int iNumVerts);
+    VertexBuffer* CreateVertexBuffer(BufferData* pData);
+    Buffer* CreateIndexBuffer(BufferData* pData);
 
-    void Draw(Buffer* pBuffer, ShaderProgram* pProgram);
+    // void Draw(Buffer* pVB, Buffer* pIB, ShaderProgram* pProgram);
+    void Render(ShaderProgram* pProgram, VertexBuffer* pVertBuffer, Buffer* pIndexBuffer);
 
     void Clear();
 

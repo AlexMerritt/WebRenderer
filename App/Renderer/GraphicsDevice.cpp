@@ -1,5 +1,5 @@
 #include "GraphicsDevice.h"
-#include <GLES2/gl2.h>
+#include <GLES3/gl3.h>
 #include <EGL/egl.h>
 #include "../Util.h"
 #include <vector>
@@ -129,43 +129,68 @@ GLuint GraphicsDevice::CreateShader(GLenum type, char* shaderText)
     return shader;
 }
 
-Buffer* GraphicsDevice::CreateVertexBuffer(float* vertices, int iNumVerts)
+VertexBuffer* GraphicsDevice::CreateVertexBuffer(BufferData* pData)
 {
-    GLuint vb;
+    GLuint vertexArray;
+	GLuint vb;
 
-    glGenBuffers(1,&vb);
-    glBindBuffer(GL_ARRAY_BUFFER, vb);
-    glBufferData(GL_ARRAY_BUFFER, sizeof(float) * iNumVerts, vertices, GL_DYNAMIC_DRAW);
+	glGenVertexArrays(1, &vertexArray);
+	glBindVertexArray(vertexArray);
 
-    HASERROR();
+	glGenBuffers(1, &vb);
+	glBindBuffer(GL_ARRAY_BUFFER, vb);
+	glBufferData(GL_ARRAY_BUFFER, pData->GetBufferSize(), pData->GetData(), GL_DYNAMIC_DRAW);
+	glBindBuffer(GL_ARRAY_BUFFER, 0);
 
-    GLBuffer* pBuffer = new GLBuffer();
-    pBuffer->NumVerts = iNumVerts;
-    pBuffer->Buffer = vb;
+	HASERROR();
 
-    return (Buffer*)pBuffer;
+	glBindBuffer(GL_ARRAY_BUFFER, vb);
+
+	glEnableVertexAttribArray(0);
+	glVertexAttribPointer(0, pData->GetElementSize() / sizeof(float), GL_FLOAT, false, pData->GetElementSize(), 0);
+
+	glBindVertexArray(0);
+	glBindBuffer(GL_ARRAY_BUFFER, 0);	
+
+	HASERROR();
+
+    return new VertexBuffer(vertexArray, vb, pData->GetNumElements(), pData->GetElementSize());
 }
 
-Buffer* GraphicsDevice::CreateIndexBuffer(int* indices, int iNumInds)
+Buffer* GraphicsDevice::CreateIndexBuffer(BufferData* pData)
 {
     GLuint ib;
 
-    glGenBuffers(1, &ib);
+
+	glGenBuffers(1, &ib);
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ib);
-	glBufferData(GL_ELEMENT_ARRAY_BUFFER, iNumInds * sizeof(int), indices, GL_DYNAMIC_DRAW);
+	glBufferData(GL_ELEMENT_ARRAY_BUFFER, pData->GetBufferSize(), pData->GetData(), GL_STATIC_DRAW);
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
 
-    GLBuffer* pBuffer = new GLBuffer();
-    pBuffer->NumVerts = iNumInds;
-    pBuffer->Buffer = ib;
+	HASERROR();
 
-    return (Buffer*)pBuffer;
+    return new Buffer(ib, pData->GetNumElements(), pData->GetElementSize());
 }
 
-void GraphicsDevice::Draw(Buffer* pBuffer, ShaderProgram* pProgram)
+// void GraphicsDevice::Draw(Buffer* pVB, Buffer* pIB, ShaderProgram* pProgram)
+// {
+//     GLProgram* pPro = (GLProgram*)pProgram;
+
+//     GLBuffer* pGLVB = (GLBuffer*)pVB;
+//     GLBuffer* pGLIB = (GLBuffer*)pIB;
+
+//     glUseProgram(pPro->Program);
+// }
+
+void Render(ShaderProgram* pProgram, VertexBuffer* pVertBuffer, Buffer* pIndexBuffer)
 {
     GLProgram* pPro = (GLProgram*)pProgram;
-    GLBuffer* pVB = (GLBuffer*)pBuffer;
     glUseProgram(pPro->Program);
+
+    glBindVertexArray(pVertBuffer->GetVertexArray());
+
+    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, pIndexBuffer->GetBuffer());
+    glDrawElements(GL_TRIANGLES, 3, GL_UNSIGNED_INT, 0);
 }
 
 void GraphicsDevice::Clear()

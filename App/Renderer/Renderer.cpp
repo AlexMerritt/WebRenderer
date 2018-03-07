@@ -26,6 +26,17 @@ void Renderer::Initialize()
     m_pDevice->Initialize();
 
     m_pProgram = m_pDevice->CreateProgram(vShaderStr, fShaderStr);
+    float verts[] = {
+        0.0, 0.5, 0.0,
+        -0.5, -0.5, 0.0,
+        0.5, -0.5, 0.0
+    };
+
+    int inds[] = {
+        0, 1, 2
+    };
+    BufferData* vbd = new BufferData(verticies, numVerts, sizeof(Vector4));
+    BufferData* ibd = new BufferData(inds, numInds, sizeof(unsigned int));
 
     Log("Renderer Initialized");
 }
