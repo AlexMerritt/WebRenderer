@@ -23,6 +23,8 @@ public:
     // void Render(Shader* pProgram, VertexBuffer* pVertBuffer, Buffer* pIndexBuffer);
     void Render(RenderObject* pRO);
 
+	void SetClearColor(float r, float g, float b);
+
     void Clear();
 
 protected:

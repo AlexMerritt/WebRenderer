@@ -54,8 +54,6 @@ void GraphicsDevice::Initialize()
     m_context =  emscripten_webgl_create_context("display", &attribs);
     emscripten_webgl_make_context_current(m_context);
 
-    glClearColor(0.1, 0.2, 0.4, 1.0);
-
     Log("Graphics Device Initialized");
 }
 
@@ -189,6 +187,11 @@ void GraphicsDevice::Render(RenderObject* pRO)
 
 	glDrawElements(GL_TRIANGLES, pRO->GetElementCount(), GL_UNSIGNED_INT, 0);
 	HASERROR();
+}
+
+void GraphicsDevice::SetClearColor(float r, float g, float b)
+{
+	glClearColor(r, g, b, 1.0);
 }
 
 void GraphicsDevice::Clear()
