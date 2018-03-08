@@ -54,17 +54,18 @@ static float b = 0;
 
 void Renderer::DrawScene()
 {
-	
-	b += 0.1f;
-	if (b > 1.0f) {
-		b = 0;
-	}
 
-	m_pDevice->SetClearColor(0.2f, 0.0f, b);
+    b += 0.1f;
+    if (b > 1.0f) 
+    {
+        b = 0;
+    }
+
+    m_pDevice->SetClearColor(0.2f, 0.0f, b);
 
     Log("Renderer Draw Scene");
 
     m_pDevice->Clear();
 
-     m_pDevice->Render(m_pObj);
+    m_pDevice->Render(m_pObj);
 }

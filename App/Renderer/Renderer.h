@@ -12,7 +12,7 @@ public:
     void DrawScene();
 
 private:
-    GraphicsDevice* m_pDevice;
+    GraphicsDevice * m_pDevice;
 
     RenderObject* m_pObj;
 

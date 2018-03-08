@@ -9,36 +9,36 @@
 
 inline bool HasError(int line, const char* file)
 {
-	GLenum err;
-	err = glGetError();
-	bool rtn = false;
-	while (err != GL_NO_ERROR)
-	{
-		Log("Line: " + std::to_string(line) + " " + file);
-		switch (err)
-		{
-		case GL_INVALID_ENUM:
-			Log("An unacceptable value is specified for an enumerated argument");
-			break;
-		case GL_INVALID_VALUE:
-			Log("A numeric argument is out of range");
-			break;
-		case GL_INVALID_OPERATION:
-			Log("The specified operation is not allowed in the current state");
-			break;
-		case GL_INVALID_FRAMEBUFFER_OPERATION:
-			Log("The framebuffer object is not complete");
-			break;
-		case GL_OUT_OF_MEMORY:
-			Log("There is not enough memory left to execute the command");
-			break;
+    GLenum err;
+    err = glGetError();
+    bool rtn = false;
+    while (err != GL_NO_ERROR)
+    {
+        Log("Line: " + std::to_string(line) + " " + file);
+        switch (err)
+        {
+        case GL_INVALID_ENUM:
+            Log("An unacceptable value is specified for an enumerated argument");
+            break;
+        case GL_INVALID_VALUE:
+            Log("A numeric argument is out of range");
+            break;
+        case GL_INVALID_OPERATION:
+            Log("The specified operation is not allowed in the current state");
+            break;
+        case GL_INVALID_FRAMEBUFFER_OPERATION:
+            Log("The framebuffer object is not complete");
+            break;
+        case GL_OUT_OF_MEMORY:
+            Log("There is not enough memory left to execute the command");
+            break;
 
-		}
-		err = glGetError();
-		rtn = true;
-	}
+        }
+        err = glGetError();
+        rtn = true;
+    }
 
-	return rtn;
+    return rtn;
 }
 
 
@@ -128,27 +128,27 @@ GLuint GraphicsDevice::CreateShader(GLenum type, char* shaderText)
 VertexBuffer* GraphicsDevice::CreateVertexBuffer(BufferData* pData)
 {
     GLuint vertexArray;
-	GLuint vb;
+    GLuint vb;
 
-	glGenVertexArrays(1, &vertexArray);
-	glBindVertexArray(vertexArray);
+    glGenVertexArrays(1, &vertexArray);
+    glBindVertexArray(vertexArray);
 
-	glGenBuffers(1, &vb);
-	glBindBuffer(GL_ARRAY_BUFFER, vb);
-	glBufferData(GL_ARRAY_BUFFER, pData->GetBufferSize(), pData->GetData(), GL_DYNAMIC_DRAW);
-	glBindBuffer(GL_ARRAY_BUFFER, 0);
+    glGenBuffers(1, &vb);
+    glBindBuffer(GL_ARRAY_BUFFER, vb);
+    glBufferData(GL_ARRAY_BUFFER, pData->GetBufferSize(), pData->GetData(), GL_DYNAMIC_DRAW);
+    glBindBuffer(GL_ARRAY_BUFFER, 0);
 
-	HASERROR();
+    HASERROR();
 
-	glBindBuffer(GL_ARRAY_BUFFER, vb);
+    glBindBuffer(GL_ARRAY_BUFFER, vb);
 
-	glEnableVertexAttribArray(0);
-	glVertexAttribPointer(0, pData->GetElementSize() / sizeof(float), GL_FLOAT, false, pData->GetElementSize(), 0);
+    glEnableVertexAttribArray(0);
+    glVertexAttribPointer(0, pData->GetElementSize() / sizeof(float), GL_FLOAT, false, pData->GetElementSize(), 0);
 
-	glBindVertexArray(0);
-	glBindBuffer(GL_ARRAY_BUFFER, 0);	
+    glBindVertexArray(0);
+    glBindBuffer(GL_ARRAY_BUFFER, 0);	
 
-	HASERROR();
+    HASERROR();
 
     return new VertexBuffer(vertexArray, vb, pData->GetNumElements(), pData->GetElementSize());
 }
@@ -158,35 +158,35 @@ Buffer* GraphicsDevice::CreateIndexBuffer(BufferData* pData)
     GLuint ib;
 
 
-	glGenBuffers(1, &ib);
-	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ib);
-	glBufferData(GL_ELEMENT_ARRAY_BUFFER, pData->GetBufferSize(), pData->GetData(), GL_STATIC_DRAW);
-	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
+    glGenBuffers(1, &ib);
+    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ib);
+    glBufferData(GL_ELEMENT_ARRAY_BUFFER, pData->GetBufferSize(), pData->GetData(), GL_STATIC_DRAW);
+    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
 
-	HASERROR();
+    HASERROR();
 
     return new Buffer(ib, pData->GetNumElements(), pData->GetElementSize());
 }
 
 void GraphicsDevice::Render(RenderObject* pRO)
 {
-	glUseProgram(pRO->GetShader()->GetShader());
-	HASERROR();
+    glUseProgram(pRO->GetShader()->GetShader());
+    HASERROR();
 
-	//// Set the camera data
-	//SetUniformMatrix(renderObject->GetShader(), "ViewMatrix", camera->GetViewMatrix());
-	//SetUniformMatrix(renderObject->GetShader(), "ProjectionMatrix", camera->GetProjectionMatrix());
+    //// Set the camera data
+    //SetUniformMatrix(renderObject->GetShader(), "ViewMatrix", camera->GetViewMatrix());
+    //SetUniformMatrix(renderObject->GetShader(), "ProjectionMatrix", camera->GetProjectionMatrix());
 
 
-	glBindVertexArray(pRO->GetVertexBuffer()->GetVertexArray());
-	HASERROR();
+    glBindVertexArray(pRO->GetVertexBuffer()->GetVertexArray());
+    HASERROR();
 
-	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, pRO->GetIndexBuffer()->GetBuffer());
+    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, pRO->GetIndexBuffer()->GetBuffer());
 
-	HASERROR();
+    HASERROR();
 
-	glDrawElements(GL_TRIANGLES, pRO->GetElementCount(), GL_UNSIGNED_INT, 0);
-	HASERROR();
+    glDrawElements(GL_TRIANGLES, pRO->GetElementCount(), GL_UNSIGNED_INT, 0);
+    HASERROR();
 }
 
 void GraphicsDevice::SetClearColor(float r, float g, float b)
