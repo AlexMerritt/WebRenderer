@@ -1,5 +1,6 @@
 #include "Application.h"
 #include "Util.h"
+#include <emscripten/emscripten.h>
 
 
 EMSCRIPTEN_WEBGL_CONTEXT_HANDLE context;
@@ -18,6 +19,10 @@ Application::Application()
 
 void Application::Initialize()
 {
+
+	int iWidth = 640;
+	int iHeight = 480;
+
     m_pRenderer = new Renderer();
     m_pRenderer->Initialize();
 
@@ -41,4 +46,9 @@ void Application::Update()
 void Application::Render()
 {
     m_pRenderer->DrawScene();
+}
+
+void Application::OnResize(int iWidth, int iHeight)
+{
+	m_pRenderer->Resize(iWidth, iHeight);
 }

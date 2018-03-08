@@ -75,7 +75,7 @@ if EXIST %file% (
   call :AddFlag ALLOW_MEMORY_GROWTH 1
   call :AddFlag USE_WEBGL2 1
   call :AddFlag FULL_ES3 1
-  call :AddFlag EXPORTED_FUNCTIONS "['_Initialize', '_Update']"
+  call :AddFlag EXPORTED_FUNCTIONS "['_Initialize', '_Update', '_Resize']"
   call :AddFlag EXTRA_EXPORTED_RUNTIME_METHODS "['ccall']"
 
   EXIT /b

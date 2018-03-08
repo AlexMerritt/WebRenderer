@@ -25,7 +25,15 @@ void Renderer::Initialize()
     m_pDevice = new GraphicsDevice(); 
     m_pDevice->Initialize();
 
-    Shader* pShader = m_pDevice->CreateProgram(vShaderStr, fShaderStr);
+	RenderObject* pObj = CreateRenderObject();
+	m_objects.push_back(pObj);
+
+    Log("Renderer Initialized");
+}
+
+RenderObject* Renderer::CreateRenderObject()
+{
+	Shader* pShader = m_pDevice->CreateProgram(vShaderStr, fShaderStr);
     
 	unsigned int iNumElements = 3;
 
@@ -45,9 +53,12 @@ void Renderer::Initialize()
     BufferData* idb = new BufferData(inds, iNumElements, sizeof(unsigned int));
     Buffer* pIB = m_pDevice->CreateIndexBuffer(idb);
 
-	m_pObj = new RenderObject(pShader, pVB, pIB, iNumElements);
+	return new RenderObject(pShader, pVB, pIB, iNumElements);
+}
 
-    Log("Renderer Initialized");
+void Renderer::Resize(int iWidth, int iHeight)
+{
+	m_pDevice->Resize(iWidth, iHeight);
 }
 
 static float b = 0;
@@ -55,7 +66,7 @@ static float b = 0;
 void Renderer::DrawScene()
 {
 
-    b += 0.1f;
+    b += 0.001f;
     if (b > 1.0f) 
     {
         b = 0;
@@ -67,5 +78,9 @@ void Renderer::DrawScene()
 
     m_pDevice->Clear();
 
-    m_pDevice->Render(m_pObj);
+	for(unsigned int i = 0; i < m_objects.size(); ++i)
+	{
+		RenderObject* pObj = m_objects[i];
+		m_pDevice->Render(pObj);
+	}
 }

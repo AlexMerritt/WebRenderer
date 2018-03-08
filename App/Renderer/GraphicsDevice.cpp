@@ -168,6 +168,11 @@ Buffer* GraphicsDevice::CreateIndexBuffer(BufferData* pData)
     return new Buffer(ib, pData->GetNumElements(), pData->GetElementSize());
 }
 
+void GraphicsDevice::Resize(int iWidth, int iHeight)
+{
+	glViewport( 0, 0, iWidth, iHeight);
+}
+
 void GraphicsDevice::Render(RenderObject* pRO)
 {
     glUseProgram(pRO->GetShader()->GetShader());

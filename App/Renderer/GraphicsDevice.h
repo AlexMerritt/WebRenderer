@@ -27,6 +27,8 @@ public:
 
     void Clear();
 
+	void Resize(int iWidth, int iHeight);
+
 protected:
     GLuint CreateShader(GLenum type, char* shaderText);
 

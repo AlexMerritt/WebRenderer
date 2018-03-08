@@ -10,6 +10,7 @@ using namespace std;
 extern "C"{
     void Initialize();
     void Update();
+	void Resize(int iWidth, int iHeight);
 
 }
 
@@ -30,4 +31,9 @@ void Initialize()
 void Update()
 {
     pApplication->Frame();
+}
+
+void Resize(int iWidth, int iHeight)
+{
+	pApplication->OnResize(iWidth, iHeight);
 }

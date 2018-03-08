@@ -12,6 +12,8 @@ public:
     void Initialize();
     void Frame();
 
+	void OnResize(int iWidth, int iHeight);
+
 protected:
     void Update();
     void Render();
