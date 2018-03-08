@@ -14,7 +14,9 @@ public:
 private:
     GraphicsDevice* m_pDevice;
 
-    ShaderProgram* m_pProgram;
+    RenderObject* m_pObj;
+
+    Shader* m_pProgram;
     VertexBuffer* m_pVertexBuffer;
     Buffer* m_pIndexBuffer;
 };

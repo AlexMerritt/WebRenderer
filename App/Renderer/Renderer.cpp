@@ -25,7 +25,10 @@ void Renderer::Initialize()
     m_pDevice = new GraphicsDevice(); 
     m_pDevice->Initialize();
 
-    m_pProgram = m_pDevice->CreateProgram(vShaderStr, fShaderStr);
+    Shader* pShader = m_pDevice->CreateProgram(vShaderStr, fShaderStr);
+    
+	unsigned int iNumElements = 3;
+
     float verts[] = {
         0.0, 0.5, 0.0,
         -0.5, -0.5, 0.0,
@@ -35,11 +38,14 @@ void Renderer::Initialize()
     int inds[] = {
         0, 1, 2
     };
-    BufferData* vbd = new BufferData(verts, 3, 3 * sizeof(float));
-    m_pVertexBuffer = m_pDevice->CreateVertexBuffer(vbd);
 
-    BufferData* idb = new BufferData(inds, 3, sizeof(unsigned int));
-    m_pIndexBuffer = m_pDevice->CreateIndexBuffer(idb);
+    BufferData* vbd = new BufferData(verts, iNumElements, 3 * sizeof(float));
+    VertexBuffer* pVB = m_pDevice->CreateVertexBuffer(vbd);
+
+    BufferData* idb = new BufferData(inds, iNumElements, sizeof(unsigned int));
+    Buffer* pIB = m_pDevice->CreateIndexBuffer(idb);
+
+	m_pObj = new RenderObject(pShader, pVB, pIB, iNumElements);
 
     Log("Renderer Initialized");
 }
@@ -50,5 +56,5 @@ void Renderer::DrawScene()
 
     m_pDevice->Clear();
 
-    m_pDevice->Render(m_pProgram, m_pVertexBuffer, m_pIndexBuffer);
+     m_pDevice->Render(m_pObj);
 }

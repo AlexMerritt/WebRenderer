@@ -6,21 +6,8 @@
 #include "../html5.h"
 
 #include "Buffer.h"
-
-struct ShaderProgram{};
-
-struct GLProgram : public ShaderProgram
-{
-    GLuint Program;
-};
-
-// struct Buffer {};
-
-// struct GLBuffer
-// {
-//     GLuint Buffer;
-//     int NumVerts;
-// };
+#include "Shader.h"
+#include "RenderObject.h"
 
 class GraphicsDevice
 {
@@ -28,12 +15,13 @@ public:
     GraphicsDevice() {}
     void Initialize();
 
-    ShaderProgram* CreateProgram(char* vertexShaderText, char* fragmentShaderText);
+    Shader* CreateProgram(char* vertexShaderText, char* fragmentShaderText);
     VertexBuffer* CreateVertexBuffer(BufferData* pData);
     Buffer* CreateIndexBuffer(BufferData* pData);
 
     // void Draw(Buffer* pVB, Buffer* pIB, ShaderProgram* pProgram);
-    void Render(ShaderProgram* pProgram, VertexBuffer* pVertBuffer, Buffer* pIndexBuffer);
+    // void Render(Shader* pProgram, VertexBuffer* pVertBuffer, Buffer* pIndexBuffer);
+    void Render(RenderObject* pRO);
 
     void Clear();
 

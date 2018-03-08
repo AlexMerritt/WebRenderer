@@ -38,7 +38,6 @@ inline bool HasError(int line, const char* file)
 		rtn = true;
 	}
 
-	//Assert(rtn == false);
 	return rtn;
 }
 
@@ -60,9 +59,9 @@ void GraphicsDevice::Initialize()
     Log("Graphics Device Initialized");
 }
 
-ShaderProgram* GraphicsDevice::CreateProgram(char* vertexShaderText, char* fragmentShaderText)
+Shader* GraphicsDevice::CreateProgram(char* vertexShaderText, char* fragmentShaderText)
 {
-    GLProgram* pResult = 0;
+    Shader* pResult = 0;
 
     GLuint vertexShader;
     GLuint fragmentShader;
@@ -79,8 +78,7 @@ ShaderProgram* GraphicsDevice::CreateProgram(char* vertexShaderText, char* fragm
 
         glLinkProgram(program);
 
-        pResult = new GLProgram();
-        pResult->Program = program;
+        pResult = new Shader(program);
     }
 
     return pResult;
@@ -172,25 +170,25 @@ Buffer* GraphicsDevice::CreateIndexBuffer(BufferData* pData)
     return new Buffer(ib, pData->GetNumElements(), pData->GetElementSize());
 }
 
-// void GraphicsDevice::Draw(Buffer* pVB, Buffer* pIB, ShaderProgram* pProgram)
-// {
-//     GLProgram* pPro = (GLProgram*)pProgram;
-
-//     GLBuffer* pGLVB = (GLBuffer*)pVB;
-//     GLBuffer* pGLIB = (GLBuffer*)pIB;
-
-//     glUseProgram(pPro->Program);
-// }
-
-void GraphicsDevice::Render(ShaderProgram* pProgram, VertexBuffer* pVertBuffer, Buffer* pIndexBuffer)
+void GraphicsDevice::Render(RenderObject* pRO)
 {
-    GLProgram* pPro = (GLProgram*)pProgram;
-    glUseProgram(pPro->Program);
+	glUseProgram(pRO->GetShader()->GetShader());
+	HASERROR();
 
-    glBindVertexArray(pVertBuffer->GetVertexArray());
+	//// Set the camera data
+	//SetUniformMatrix(renderObject->GetShader(), "ViewMatrix", camera->GetViewMatrix());
+	//SetUniformMatrix(renderObject->GetShader(), "ProjectionMatrix", camera->GetProjectionMatrix());
 
-    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, pIndexBuffer->GetBuffer());
-    glDrawElements(GL_TRIANGLES, 3, GL_UNSIGNED_INT, 0);
+
+	glBindVertexArray(pRO->GetVertexBuffer()->GetVertexArray());
+	HASERROR();
+
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, pRO->GetIndexBuffer()->GetBuffer());
+
+	HASERROR();
+
+	glDrawElements(GL_TRIANGLES, pRO->GetElementCount(), GL_UNSIGNED_INT, 0);
+	HASERROR();
 }
 
 void GraphicsDevice::Clear()
