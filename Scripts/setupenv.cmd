@@ -3,9 +3,9 @@ set src=C:\Projects\WebRenderer
 set scriptdir=%src%\Scripts
 
 set appdir=%src%\App
-set jssrc=%appdir%\JS
 
 set libdir=%src%\Lib
+set jssrc=%libdir%\JS
 
 set bindir=%src%\Bin
 set jsdst=%bindir%\JS
