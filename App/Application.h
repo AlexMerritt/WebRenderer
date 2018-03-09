@@ -7,7 +7,7 @@
 
 class Application{
 public:
-    Application();
+    Application(int iWidth, int iHeight);
 
     void Initialize();
     void Frame();
@@ -21,6 +21,9 @@ protected:
 protected:
     std::string m_strAppName;
     Renderer* m_pRenderer;
+
+    int m_iWindowWidth;
+    int m_iWindowHeight;
 };
 
 #endif

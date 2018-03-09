@@ -12,18 +12,19 @@ void output_error(int error, const char* msg)
     Log(strError);
 }
 
-Application::Application()
+Application::Application(int iWidth, int iHeight)
 {
+    m_iWindowWidth = iWidth;
+    m_iWindowHeight = iHeight;
+
+    printf("Initializing window to %d, %d\n", m_iWindowWidth, m_iWindowHeight);
+
     Initialize();
     m_strAppName = "Renderer";
 }
 
 void Application::Initialize()
 {
-
-	int iWidth = 640;
-	int iHeight = 480;
-
     m_pRenderer = new Renderer();
     m_pRenderer->Initialize();
 
@@ -59,5 +60,12 @@ void Application::Render()
 
 void Application::OnResize(int iWidth, int iHeight)
 {
+    m_iWindowWidth = iWidth;
+    m_iWindowHeight = iHeight;
+
+    printf("Resizing window to %d, %d\n", m_iWindowWidth, m_iWindowHeight);
+
 	m_pRenderer->Resize(iWidth, iHeight);
+
+
 }

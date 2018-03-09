@@ -4,11 +4,8 @@
 #include "Application.h"
 #include "Util.h"
 
-
-using namespace std;
-
 extern "C"{
-    void Initialize();
+    void Initialize(int iWidth, int iHeight);
     void Update();
 	void Resize(int iWidth, int iHeight);
 
@@ -16,11 +13,11 @@ extern "C"{
 
 Application* pApplication = 0;
 
-void Initialize()
+void Initialize(int iWidth, int iHeight)
 {
     if(!pApplication)
     {
-        pApplication = new Application();
+        pApplication = new Application(iWidth, iHeight);
     }
     else
     {
