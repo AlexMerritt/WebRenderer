@@ -1,4 +1,5 @@
-#pragma once
+#ifndef __VECTOR_3__
+#define __VECTOR_3__
 
 #include <float.h>
 #include <cmath>
@@ -98,3 +99,5 @@ inline float DistanceSquared(const Vector3& a, const Vector3& b)
 	Vector3 c = a - b;
 	return c.LengthSquared();
 }
+
+#endif

@@ -1,8 +1,6 @@
 #ifndef __SHADER__
 #define __SHADER__
 
-#include "Buffer.h"
-
 class Shader
 {
 public:

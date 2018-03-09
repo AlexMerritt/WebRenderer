@@ -1,4 +1,5 @@
-#pragma once
+#ifndef __VECTOR_4__
+#define __VECTOR_4__
 
 struct Vector4
 {
@@ -9,3 +10,5 @@ struct Vector4
 	float z;
 	float w;
 };
+
+#endif

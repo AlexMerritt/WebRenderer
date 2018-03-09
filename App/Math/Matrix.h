@@ -1,5 +1,5 @@
-#pragma once
-
+#ifndef __MATRIX_4_
+#define __MATRIX_4_
 #include "Vector3.h"
 
 #include <cstdlib>
@@ -268,3 +268,5 @@ public:
 private:
 	float m[16];
 };
+
+#endif
