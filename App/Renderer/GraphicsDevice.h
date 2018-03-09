@@ -5,9 +5,9 @@
 #include <EGL/egl.h>
 #include "../html5.h"
 
-#include "Buffer.h"
-#include "Shader.h"
-#include "RenderObject.h"
+#include "../Graphics/Buffer.h"
+#include "../Graphics/Shader.h"
+#include "../Graphics/RenderObject.h"
 
 class GraphicsDevice
 {
