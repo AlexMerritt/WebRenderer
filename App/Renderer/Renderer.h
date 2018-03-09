@@ -2,7 +2,10 @@
 #define __RENDERER__
 
 #include "GraphicsDevice.h"
+#include "../Graphics/Scene.h"
+
 #include <vector>
+
 
 class Renderer
 {
@@ -12,20 +15,18 @@ public:
 
 	RenderObject* CreateRenderObject();
 
-    void DrawScene();
+    void SetScene(Scene* pScene) { m_pScene = pScene; }
 
 	void Resize(int iWidth, int iHeight);
 
+    void Render();
+
 private:
-    GraphicsDevice * m_pDevice;
+    void DrawScene(Scene* pScene);
 
-	std::vector<RenderObject*> m_objects;
-
-    RenderObject* m_pObj;
-
-    Shader* m_pProgram;
-    VertexBuffer* m_pVertexBuffer;
-    Buffer* m_pIndexBuffer;
+private:
+    GraphicsDevice* m_pDevice;
+    Scene* m_pScene;
 };
 
 #endif

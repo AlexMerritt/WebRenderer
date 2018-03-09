@@ -13,10 +13,12 @@ public:
     Scene(const std::string& strSceneName);
     ~Scene() {}
 
-    void AddScene(){}
+    void AddRenderObject(RenderObject* pObj) { m_renderObjects.push_back(pObj); }
 
-    std::vector<RenderObject*> GetObjects() const { return m_renderObjects; }
+    std::vector<RenderObject*>& GetObjects() { return m_renderObjects; }
     Camera* GetCamera() const { return m_pCamera; }
+
+    const std::string& GetName() const { return m_strSceneName; }
 
 protected:
     std::string m_strSceneName;

@@ -25,8 +25,10 @@ void Renderer::Initialize()
     m_pDevice = new GraphicsDevice(); 
     m_pDevice->Initialize();
 
-	RenderObject* pObj = CreateRenderObject();
-	m_objects.push_back(pObj);
+	// RenderObject* pObj = CreateRenderObject();
+	// m_objects.push_back(pObj);
+
+    m_pDevice->SetClearColor(0.2f, 0.5f, 0.1f);
 
     Log("Renderer Initialized");
 }
@@ -63,24 +65,30 @@ void Renderer::Resize(int iWidth, int iHeight)
 
 static float b = 0;
 
-void Renderer::DrawScene()
+void Renderer::Render()
 {
-
-    b += 0.001f;
-    if (b > 1.0f) 
-    {
-        b = 0;
-    }
-
-    m_pDevice->SetClearColor(0.2f, 0.0f, b);
-
-    Log("Renderer Draw Scene");
-
     m_pDevice->Clear();
+    
+    DrawScene(m_pScene);
+}
 
-	for(unsigned int i = 0; i < m_objects.size(); ++i)
+void Renderer::DrawScene(Scene* pScene)
+{
+    std::string strSceneName = pScene->GetName();
+    Log("Draing scene: " + strSceneName);
+
+    // Set Camera
+    Camera* pCamera = pScene->GetCamera();
+    // m_pDevice->SetCamera(pScene->GetCamera());
+
+    // get the list of render objects
+    std::vector<RenderObject*> objs = pScene->GetObjects();
+    printf("num objects, %d\n", (int)objs.size());
+
+    // Draw each one
+    for(unsigned int i = 0; i < objs.size(); ++i)
 	{
-		RenderObject* pObj = m_objects[i];
+		RenderObject* pObj = objs[i];
 		m_pDevice->Render(pObj);
 	}
 }

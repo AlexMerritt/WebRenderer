@@ -1,6 +1,7 @@
 #include "Application.h"
 #include "Util.h"
 #include <emscripten/emscripten.h>
+#include "Graphics/Scene.h"
 
 
 EMSCRIPTEN_WEBGL_CONTEXT_HANDLE context;
@@ -26,6 +27,14 @@ void Application::Initialize()
     m_pRenderer = new Renderer();
     m_pRenderer->Initialize();
 
+    Log("Creating scene");
+
+    Scene* pScene = new Scene("Test Scene");
+    RenderObject* pRO = m_pRenderer->CreateRenderObject();
+    pScene->AddRenderObject(pRO);
+
+    m_pRenderer->SetScene(pScene);
+
     Log("Application Initalized");
 }
 
@@ -45,7 +54,7 @@ void Application::Update()
 
 void Application::Render()
 {
-    m_pRenderer->DrawScene();
+    m_pRenderer->Render();
 }
 
 void Application::OnResize(int iWidth, int iHeight)
