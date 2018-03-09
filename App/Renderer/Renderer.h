@@ -13,7 +13,7 @@ public:
     Renderer();
     void Initialize();
 
-	RenderObject* CreateRenderObject();
+	RenderObject* CreateRenderObject(char* vertexShaderText, char* fragmentShaderText);
 
     void SetScene(Scene* pScene) { m_pScene = pScene; }
 

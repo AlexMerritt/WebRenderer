@@ -2,6 +2,7 @@
 #define __APPLICATION__
 
 #include "Renderer/Renderer.h"
+#include "Graphics/Scene.h"
 
 #include <string>
 
@@ -21,6 +22,8 @@ protected:
 protected:
     std::string m_strAppName;
     Renderer* m_pRenderer;
+
+    Scene* m_pScene;
 
     int m_iWindowWidth;
     int m_iWindowHeight;

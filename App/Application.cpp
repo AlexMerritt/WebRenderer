@@ -2,6 +2,7 @@
 #include "Util.h"
 #include <emscripten/emscripten.h>
 #include "Graphics/Scene.h"
+#include "Graphics/ShaderPrograms.h"
 
 
 EMSCRIPTEN_WEBGL_CONTEXT_HANDLE context;
@@ -30,11 +31,11 @@ void Application::Initialize()
 
     Log("Creating scene");
 
-    Scene* pScene = new Scene("Test Scene");
-    RenderObject* pRO = m_pRenderer->CreateRenderObject();
-    pScene->AddRenderObject(pRO);
+    m_pScene = new Scene("Test Scene", m_iWindowWidth, m_iWindowHeight);
+    RenderObject* pRO = m_pRenderer->CreateRenderObject(vs, fShaderStr);
+    m_pScene->AddRenderObject(pRO);
 
-    m_pRenderer->SetScene(pScene);
+    m_pRenderer->SetScene(m_pScene);
 
     Log("Application Initalized");
 }
@@ -51,6 +52,7 @@ void Application::Frame()
 void Application::Update()
 {
     Log("Update");
+    m_pScene->Update();
 }
 
 void Application::Render()
@@ -65,7 +67,6 @@ void Application::OnResize(int iWidth, int iHeight)
 
     printf("Resizing window to %d, %d\n", m_iWindowWidth, m_iWindowHeight);
 
+    m_pScene->Resize(iWidth, iHeight);
 	m_pRenderer->Resize(iWidth, iHeight);
-
-
 }

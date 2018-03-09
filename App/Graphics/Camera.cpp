@@ -1,12 +1,15 @@
 #include "Camera.h"
 
-void Camera::Initialize(float fov, float aspectRatio, float nearPlane, float farPlane)
+Camera::Camera()
 {
 	SetPosition(Vector3(0, 0, 2));
 	SetRotation(Vector3(0, 0, -1));
 
 	m_upDir = Vector3(0, 1, 0);
+}
 
+void Camera::SetProjection(float fov, float aspectRatio, float nearPlane, float farPlane)
+{
 	m_fov = fov;
 	m_aspectRatio = aspectRatio;
 	m_nearPlane = nearPlane;

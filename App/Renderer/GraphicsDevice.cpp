@@ -168,19 +168,33 @@ Buffer* GraphicsDevice::CreateIndexBuffer(BufferData* pData)
     return new Buffer(ib, pData->GetNumElements(), pData->GetElementSize());
 }
 
+void GraphicsDevice::SetUniformMatrix(Shader* pShader, const std::string& strParam, Matrix4 m)
+{
+	GLuint loc = glGetUniformLocation(pShader->GetShader(), strParam.c_str());
+	if (loc == -1)
+	{
+		Log("Param: " + strParam + " does not exist in shader");
+		return;
+	}
+
+	glUniformMatrix4fv(loc, 1, false, m);
+}
+
 void GraphicsDevice::Resize(int iWidth, int iHeight)
 {
 	glViewport( 0, 0, iWidth, iHeight);
 }
 
-void GraphicsDevice::Render(RenderObject* pRO)
+void GraphicsDevice::Render(Camera* pCamera, RenderObject* pRO)
 {
-    glUseProgram(pRO->GetShader()->GetShader());
+    Shader* pShader = pRO->GetShader();
+
+    glUseProgram(pShader->GetShader());
     HASERROR();
 
     //// Set the camera data
-    //SetUniformMatrix(renderObject->GetShader(), "ViewMatrix", camera->GetViewMatrix());
-    //SetUniformMatrix(renderObject->GetShader(), "ProjectionMatrix", camera->GetProjectionMatrix());
+    SetUniformMatrix(pShader, "ViewMatrix", pCamera->GetViewMatrix());
+    SetUniformMatrix(pShader, "ProjectionMatrix", pCamera->GetProjectionMatrix());
 
 
     glBindVertexArray(pRO->GetVertexBuffer()->GetVertexArray());

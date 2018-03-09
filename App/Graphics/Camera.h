@@ -7,10 +7,10 @@
 class Camera
 {
 public:
-	Camera() {}
+	Camera();
 	~Camera() {}
 
-	void Initialize(float fov, float aspectRatio, float nearPlane, float farPlane);
+	void SetProjection(float fov, float aspectRatio, float nearPlane, float farPlane);
 
 	void SetPosition(Vector3 position);
 	void Move(Vector3 position);

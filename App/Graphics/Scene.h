@@ -10,8 +10,10 @@
 class Scene
 {
 public:
-    Scene(const std::string& strSceneName);
+    Scene(const std::string& strSceneName, int iWindowWidth, int iWindowHeight);
     ~Scene() {}
+
+    void Update();
 
     void AddRenderObject(RenderObject* pObj) { m_renderObjects.push_back(pObj); }
 
@@ -19,6 +21,12 @@ public:
     Camera* GetCamera() const { return m_pCamera; }
 
     const std::string& GetName() const { return m_strSceneName; }
+
+    void Resize(int iWindowWidth, int iWindowHeight);
+
+protected:
+    void UpdateCameras(int iWindowWidth, int iWindowHeight);
+
 
 protected:
     std::string m_strSceneName;

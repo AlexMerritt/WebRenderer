@@ -8,6 +8,11 @@
 #include "../Graphics/Buffer.h"
 #include "../Graphics/Shader.h"
 #include "../Graphics/RenderObject.h"
+#include "../Graphics/Camera.h"
+
+#include "../Math/Matrix.h"
+
+#include <string>
 
 class GraphicsDevice
 {
@@ -21,7 +26,7 @@ public:
 
     // void Draw(Buffer* pVB, Buffer* pIB, ShaderProgram* pProgram);
     // void Render(Shader* pProgram, VertexBuffer* pVertBuffer, Buffer* pIndexBuffer);
-    void Render(RenderObject* pRO);
+    void Render(Camera* pCamera, RenderObject* pRO);
 
     void SetClearColor(float r, float g, float b);
 
@@ -31,6 +36,8 @@ public:
 
 protected:
     GLuint CreateShader(GLenum type, char* shaderText);
+
+    void SetUniformMatrix(Shader* shader, const std::string& param, Matrix4 km);
 
 protected:
     EMSCRIPTEN_WEBGL_CONTEXT_HANDLE m_context;
