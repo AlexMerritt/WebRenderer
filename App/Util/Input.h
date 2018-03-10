@@ -26,8 +26,8 @@ public:
         ZeroBuffer(m_currentBuffer);
     }
 
-    void KeyUp(Key key) { m_currentBuffer.Keys[key] = true;}
-    void KeyDown(Key key) { m_currentBuffer.Keys[key] = false; }
+    void KeyUp(Key key) { m_currentBuffer.Keys[key] = false;}
+    void KeyDown(Key key) { m_currentBuffer.Keys[key] = true; }
     
     bool IsKeyDown(Key key) { return m_currentBuffer.Keys[key]; }
     bool KeyPressed(Key key) { return m_currentBuffer.Keys[key] && !m_lastBuffer.Keys[key]; }

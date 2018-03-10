@@ -15,17 +15,20 @@ Application* pApplication = 0;
 
 static EM_BOOL KeyDown(int eventType, const EmscriptenKeyboardEvent *e, void *userData)
 {
-    unsigned long charCode = e->charCode;
-    unsigned long keyCode = e->keyCode;
-    unsigned long which = e->which;
-    unsigned long loc = e->location;
-    printf("Key down event\nChar: %d, Key: %d, Which: %d, Location: %d\n", (int)charCode, (int)keyCode, (int)which, (int)loc);
+    // unsigned long charCode = e->charCode;
+    // unsigned long keyCode = e->keyCode;
+    // unsigned long which = e->which;
+    // unsigned long loc = e->location;
+    // printf("Key down event\nChar: %d, Key: %d, Which: %d, Location: %d\n", (int)charCode, (int)keyCode, (int)which, (int)loc);
+
+    pApplication->KeyDown(e);
     return 0;
 }
 
 static EM_BOOL KeyUp(int eventType, const EmscriptenKeyboardEvent *e, void *userData)
 {
     printf("Key up event\n");
+    pApplication->KeyUp(e);
     return 0;
 
 }

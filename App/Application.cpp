@@ -56,25 +56,20 @@ void Application::KeyUp(const EmscriptenKeyboardEvent* e)
 
 void Application::Frame()
 {
-    std::string strMessage = "Processing Frame for applcation: " + m_strAppName;
-    Log(strMessage);
-
     Update();
     Render();
 }
 
 void Application::Update()
 {
-    Log("Update");
-
-    m_pKeyboard->Update();
-
     if(m_pKeyboard->KeyReleased(67))
     {
-        printf("A release\n");
+        printf("Key is released from my keyboard class\n");
     }
 
     m_pScene->Update();
+
+    m_pKeyboard->Update();
 }
 
 void Application::Render()
