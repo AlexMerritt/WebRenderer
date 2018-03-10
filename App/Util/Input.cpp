@@ -64,3 +64,20 @@ void Keyboard::CopyBuffer(KeyboardBuffer& destBuffer, KeyboardBuffer& srcBuffer)
         destBuffer.Keys[i] = srcBuffer.Keys[i];
     }
 }
+
+static Mouse* s_pMouse = 0;
+
+Mouse* Mouse::Get()
+{
+    return s_pMouse;
+}
+
+void Mouse::Set(Mouse* pMouse)
+{
+    s_pMouse = pMouse;
+}
+
+Mouse::Mouse()
+{
+
+}

@@ -29,6 +29,8 @@ void Application::Initialize()
     m_pKeyboard = new Keyboard();
     Keyboard::Set(m_pKeyboard);
 
+    m_pMouse = new Mouse();
+    Mouse::Set(m_pMouse);
 
     m_pRenderer = new Renderer();
     m_pRenderer->Initialize();
@@ -52,7 +54,11 @@ void Application::KeyDown(const EmscriptenKeyboardEvent* e)
 void Application::KeyUp(const EmscriptenKeyboardEvent* e)
 {
     m_pKeyboard->KeyUp(e->keyCode);
-    
+}
+
+void Application::MouseEvent(const EmscriptenMouseEvent* e)
+{
+    Log("Mouse event\n");
 }
 
 void Application::Frame()

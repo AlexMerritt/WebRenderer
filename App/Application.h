@@ -20,6 +20,7 @@ public:
 
     void KeyDown(const EmscriptenKeyboardEvent* e);
     void KeyUp(const EmscriptenKeyboardEvent* e);
+    void MouseEvent(const EmscriptenMouseEvent* e);
 
 protected:
     void Update();
@@ -35,6 +36,7 @@ protected:
     int m_iWindowHeight;
 
     Keyboard* m_pKeyboard;
+    Mouse* m_pMouse;
 };
 
 #endif

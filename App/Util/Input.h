@@ -39,7 +39,11 @@ private:
 
 class Mouse
 {
+public:
+    Mouse();
 
+    static Mouse* Get();
+    static void Set(Mouse* pMouse);
 };
 
 #endif

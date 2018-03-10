@@ -27,10 +27,15 @@ static EM_BOOL KeyDown(int eventType, const EmscriptenKeyboardEvent *e, void *us
 
 static EM_BOOL KeyUp(int eventType, const EmscriptenKeyboardEvent *e, void *userData)
 {
-    printf("Key up event\n");
     pApplication->KeyUp(e);
     return 0;
 
+}
+
+static EM_BOOL MouseEvent(int eventType, const EmscriptenMouseEvent *mouseEvent, void *userData)
+{
+    pApplication->MouseEvent(mouseEvent);
+    return 0;
 }
 
 void Initialize(int iWidth, int iHeight)
@@ -39,6 +44,10 @@ void Initialize(int iWidth, int iHeight)
     {
         emscripten_set_keydown_callback(0,0,1, KeyDown);
         emscripten_set_keyup_callback(0,0, 1, KeyUp);
+        emscripten_set_mousemove_callback(0,0,1,MouseEvent);
+        emscripten_set_mousedown_callback(0,0,1, MouseEvent);
+        emscripten_set_mouseup_callback(0,0,1,MouseEvent);
+
 
         pApplication = new Application(iWidth, iHeight);
     }
