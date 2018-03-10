@@ -13,10 +13,30 @@ extern "C"{
 
 Application* pApplication = 0;
 
+static EM_BOOL KeyDown(int eventType, const EmscriptenKeyboardEvent *e, void *userData)
+{
+    unsigned long charCode = e->charCode;
+    unsigned long keyCode = e->keyCode;
+    unsigned long which = e->which;
+    unsigned long loc = e->location;
+    printf("Key down event\nChar: %d, Key: %d, Which: %d, Location: %d\n", (int)charCode, (int)keyCode, (int)which, (int)loc);
+    return 0;
+}
+
+static EM_BOOL KeyUp(int eventType, const EmscriptenKeyboardEvent *e, void *userData)
+{
+    printf("Key up event\n");
+    return 0;
+
+}
+
 void Initialize(int iWidth, int iHeight)
 {
     if(!pApplication)
     {
+        emscripten_set_keydown_callback(0,0,1, KeyDown);
+        emscripten_set_keyup_callback(0,0, 1, KeyUp);
+
         pApplication = new Application(iWidth, iHeight);
     }
     else

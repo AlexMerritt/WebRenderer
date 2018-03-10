@@ -26,6 +26,9 @@ Application::Application(int iWidth, int iHeight)
 
 void Application::Initialize()
 {
+    m_pKeyboard = new Keyboard();
+
+
     m_pRenderer = new Renderer();
     m_pRenderer->Initialize();
 
@@ -40,6 +43,17 @@ void Application::Initialize()
     Log("Application Initalized");
 }
 
+void Application::KeyDown(const EmscriptenKeyboardEvent* e)
+{
+    m_pKeyboard->KeyDown(e->keyCode);
+}
+
+void Application::KeyUp(const EmscriptenKeyboardEvent* e)
+{
+    m_pKeyboard->KeyUp(e->keyCode);
+    
+}
+
 void Application::Frame()
 {
     std::string strMessage = "Processing Frame for applcation: " + m_strAppName;
@@ -52,6 +66,14 @@ void Application::Frame()
 void Application::Update()
 {
     Log("Update");
+
+    m_pKeyboard->Update();
+
+    if(m_pKeyboard->KeyReleased(67))
+    {
+        printf("A release\n");
+    }
+
     m_pScene->Update();
 }
 

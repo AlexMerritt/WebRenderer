@@ -3,6 +3,9 @@
 
 #include "Renderer/Renderer.h"
 #include "Graphics/Scene.h"
+#include "Util/Input.h"
+
+#include "html5.h"
 
 #include <string>
 
@@ -14,6 +17,9 @@ public:
     void Frame();
 
 	void OnResize(int iWidth, int iHeight);
+
+    void KeyDown(const EmscriptenKeyboardEvent* e);
+    void KeyUp(const EmscriptenKeyboardEvent* e);
 
 protected:
     void Update();
@@ -27,6 +33,8 @@ protected:
 
     int m_iWindowWidth;
     int m_iWindowHeight;
+
+    Keyboard* m_pKeyboard;
 };
 
 #endif
