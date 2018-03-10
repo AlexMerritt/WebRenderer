@@ -14,45 +14,27 @@ private:
     };
 
 public:
-    Keyboard()
-    {
-        ZeroBuffer(m_currentBuffer);
-        ZeroBuffer(m_lastBuffer);
-    }
+    Keyboard();
 
-    void Update()
-    {
-        CopyBuffer(m_lastBuffer, m_currentBuffer);
-        ZeroBuffer(m_currentBuffer);
-    }
+    void Update();
 
-    void KeyUp(Key key) { m_currentBuffer.Keys[key] = false;}
-    void KeyDown(Key key) { m_currentBuffer.Keys[key] = true; }
+    void KeyUp(Key key);
+    void KeyDown(Key key);
     
-    bool IsKeyDown(Key key) { return m_currentBuffer.Keys[key]; }
-    bool KeyPressed(Key key) { return m_currentBuffer.Keys[key] && !m_lastBuffer.Keys[key]; }
-    bool KeyReleased(Key key) { return !m_currentBuffer.Keys[key] && m_lastBuffer.Keys[key]; }
+    bool IsKeyDown(Key key);
+    bool KeyPressed(Key key);
+    bool KeyReleased(Key key);
+
+    static Keyboard* Get();
+    static void Set(Keyboard* pKeyboard);
 
 private:
-    void ZeroBuffer(KeyboardBuffer& buffer)
-    {
-        for(unsigned int i = 0; i < NUM_KEYS; ++i)
-        {
-            buffer.Keys[i] = 0;
-        }
-    }
-
-    void CopyBuffer(KeyboardBuffer& destBuffer, KeyboardBuffer& srcBuffer)
-    {
-        for(unsigned int i = 0; i < NUM_KEYS; ++i)
-        {
-            destBuffer.Keys[i] = srcBuffer.Keys[i];
-        }
-    }
+    void ZeroBuffer(KeyboardBuffer& buffer);
+    void CopyBuffer(KeyboardBuffer& destBuffer, KeyboardBuffer& srcBuffer);
 
 private:
     KeyboardBuffer m_lastBuffer;
-    KeyboardBuffer m_currentBuffer;
+    KeyboardBuffer m_currentBuffer;   
 };
 
 class Mouse

@@ -27,6 +27,7 @@ Application::Application(int iWidth, int iHeight)
 void Application::Initialize()
 {
     m_pKeyboard = new Keyboard();
+    Keyboard::Set(m_pKeyboard);
 
 
     m_pRenderer = new Renderer();
@@ -62,11 +63,6 @@ void Application::Frame()
 
 void Application::Update()
 {
-    if(m_pKeyboard->KeyReleased(67))
-    {
-        printf("Key is released from my keyboard class\n");
-    }
-
     m_pScene->Update();
 
     m_pKeyboard->Update();

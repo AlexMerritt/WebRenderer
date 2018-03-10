@@ -1,4 +1,5 @@
 #include "Scene.h"
+#include "../Util/Input.h"
 
 Scene::Scene(const std::string& strSceneName, int iWindowWidth, int iWindowHeight)
 {
@@ -13,6 +14,12 @@ Scene::Scene(const std::string& strSceneName, int iWindowWidth, int iWindowHeigh
 
 void Scene::Update()
 {
+
+    if(Keyboard::Get()->IsKeyDown(65))
+    {
+        m_pCamera->Move(Vector3(0.1f, 0.0f, 0.0f));
+    }
+
     m_pCamera->Update();
 }
 
