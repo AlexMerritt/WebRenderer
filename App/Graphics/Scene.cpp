@@ -12,13 +12,18 @@ Scene::Scene(const std::string& strSceneName, int iWindowWidth, int iWindowHeigh
     m_pCamera->SetProjection(fFov, fAspectRatio, 0.1f, 1000.0f);
 }
 
-void Scene::Update()
+void Scene::Update(double dDelta)
 {
 
     if(Keyboard::Get()->IsKeyDown(65))
     {
         m_pCamera->Move(Vector3(0.1f, 0.0f, 0.0f));
     }
+    else if(Keyboard::Get()->IsKeyDown(68))
+    {
+        m_pCamera->Move(Vector3(-0.1f, 0.0f, 0.0f));
+    }
+
 
     m_pCamera->Update();
 }

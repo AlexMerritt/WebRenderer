@@ -1,6 +1,5 @@
 #include "Application.h"
 #include "Util.h"
-#include <emscripten/emscripten.h>
 #include "Graphics/Scene.h"
 #include "Graphics/ShaderPrograms.h"
 
@@ -58,19 +57,17 @@ void Application::KeyUp(const EmscriptenKeyboardEvent* e)
 
 void Application::MouseEvent(const EmscriptenMouseEvent* e)
 {
-    Log("Mouse event\n");
 }
 
-void Application::Frame()
+void Application::Frame(double dDelta)
 {
-    Update();
+    Update(dDelta);
     Render();
 }
 
-void Application::Update()
+void Application::Update(double dDelta)
 {
-    m_pScene->Update();
-
+    m_pScene->Update(dDelta);
     m_pKeyboard->Update();
 }
 

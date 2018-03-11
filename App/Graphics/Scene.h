@@ -13,7 +13,7 @@ public:
     Scene(const std::string& strSceneName, int iWindowWidth, int iWindowHeight);
     ~Scene() {}
 
-    void Update();
+    void Update(double dDelta);
 
     void AddRenderObject(RenderObject* pObj) { m_renderObjects.push_back(pObj); }
 

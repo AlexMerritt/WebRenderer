@@ -3,6 +3,8 @@
 
 #include "Application.h"
 #include "Util.h"
+#include <emscripten/html5.h>
+#include <emscripten/emscripten.h>
 
 extern "C"{
     void Initialize(int iWidth, int iHeight);
@@ -57,9 +59,35 @@ void Initialize(int iWidth, int iHeight)
     }
 }
 
+double dLastTime = 0;
+double dAccumalation = 0;
+int iFrames = 0;
+
+void Frame()
+{
+    double dCurrentTime = emscripten_get_now() / 1000.0;
+
+    double dDelta = dCurrentTime - dLastTime;
+    dLastTime = dCurrentTime;
+
+    dAccumalation += dDelta;
+    ++iFrames;
+
+    if(dAccumalation >= 1.0f)
+    {
+        printf("%d\n", iFrames);
+        iFrames = 0;
+        dAccumalation = 0.0;
+    }
+    
+    pApplication->Frame(dDelta);
+
+}
+
 void Update()
 {
-    pApplication->Frame();
+    // pApplication->Frame();
+    emscripten_set_main_loop(Frame, 0, 0);
 }
 
 void Resize(int iWidth, int iHeight)

@@ -4,8 +4,7 @@
 #include "Renderer/Renderer.h"
 #include "Graphics/Scene.h"
 #include "Util/Input.h"
-
-#include "html5.h"
+#include <emscripten/html5.h>
 
 #include <string>
 
@@ -14,7 +13,7 @@ public:
     Application(int iWidth, int iHeight);
 
     void Initialize();
-    void Frame();
+    void Frame(double dDelta);
 
 	void OnResize(int iWidth, int iHeight);
 
@@ -23,7 +22,7 @@ public:
     void MouseEvent(const EmscriptenMouseEvent* e);
 
 protected:
-    void Update();
+    void Update(double dDelta);
     void Render();
 
 protected:
