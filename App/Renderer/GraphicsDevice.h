@@ -3,7 +3,7 @@
 
 #include <GLES3/gl3.h>
 #include <EGL/egl.h>
-#include "../html5.h"
+#include <emscripten/html5.h>
 
 #include "../Graphics/Buffer.h"
 #include "../Graphics/Shader.h"

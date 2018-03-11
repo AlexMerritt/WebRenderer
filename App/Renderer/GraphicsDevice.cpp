@@ -1,6 +1,4 @@
 #include "GraphicsDevice.h"
-#include <GLES3/gl3.h>
-#include <EGL/egl.h>
 #include "../Util.h"
 #include <vector>
 

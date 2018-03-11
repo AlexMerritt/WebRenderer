@@ -59,7 +59,6 @@ void Renderer::Render()
 void Renderer::DrawScene(Scene* pScene)
 {
     std::string strSceneName = pScene->GetName();
-    Log("Draing scene: " + strSceneName);
 
     // Set Camera
     Camera* pCamera = pScene->GetCamera();
@@ -67,7 +66,6 @@ void Renderer::DrawScene(Scene* pScene)
 
     // get the list of render objects
     std::vector<RenderObject*> objs = pScene->GetObjects();
-    printf("num objects, %d\n", (int)objs.size());
 
     // Draw each one
     for(unsigned int i = 0; i < objs.size(); ++i)
