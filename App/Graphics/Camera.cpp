@@ -2,8 +2,8 @@
 
 Camera::Camera()
 {
-	SetPosition(Vector3(0, 0, 2));
-	SetRotation(Vector3(0, 0, -1));
+	SetPosition(Vector3(0, 0, -2));
+	SetRotation(Vector3(0, 0, 1));
 
 	m_upDir = Vector3(0, 1, 0);
 }

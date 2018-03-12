@@ -70,15 +70,15 @@ void Frame()
     double dDelta = dCurrentTime - dLastTime;
     dLastTime = dCurrentTime;
 
-    dAccumalation += dDelta;
-    ++iFrames;
+    // dAccumalation += dDelta;
+    // ++iFrames;
 
-    if(dAccumalation >= 1.0f)
-    {
-        printf("%d\n", iFrames);
-        iFrames = 0;
-        dAccumalation = 0.0;
-    }
+    // if(dAccumalation >= 1.0f)
+    // {
+    //     printf("%d\n", iFrames);
+    //     iFrames = 0;
+    //     dAccumalation = 0.0;
+    // }
     
     pApplication->Frame(dDelta);
 

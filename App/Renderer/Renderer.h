@@ -3,6 +3,7 @@
 
 #include "GraphicsDevice.h"
 #include "../Graphics/Scene.h"
+#include "../Graphics/Mesh.h"
 
 #include <vector>
 
@@ -14,6 +15,7 @@ public:
     void Initialize();
 
 	RenderObject* CreateRenderObject(char* vertexShaderText, char* fragmentShaderText);
+    RenderObject* CreateRenderObject(Mesh* pMesh, Shader* pShader);
 
     void SetScene(Scene* pScene) { m_pScene = pScene; }
 

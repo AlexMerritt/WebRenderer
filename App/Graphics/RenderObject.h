@@ -2,14 +2,7 @@
 #define __RENDER_OBJECT__
 
 #include "Buffer.h"
-#include "Shader.h"
-
-struct VertexType
-{
-    float x, y, z;
-    // Changed to 4 at some point
-    // float x, y, z, w;
-};
+#include "../Renderer/Shader.h"
 
 class RenderObject
 {

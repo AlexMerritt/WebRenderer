@@ -20,26 +20,36 @@ void Renderer::Initialize()
 RenderObject* Renderer::CreateRenderObject(char* vertexShaderText, char* fragmentShaderText)
 {
 	Shader* pShader = m_pDevice->CreateProgram(vertexShaderText, fragmentShaderText);
-    
-	unsigned int iNumElements = 3;
 
-    float verts[] = {
-        0.0, 0.5, 0.0,
-        -0.5, -0.5, 0.0,
-        0.5, -0.5, 0.0
-    };
+    std::vector<Vertex> verticies;
 
-    int inds[] = {
-        0, 1, 2
-    };
+    verticies.push_back(Vertex(0.0, 0.0, 0.0));
+    verticies.push_back(Vertex(0.0, 1.0, 0.0));
+    verticies.push_back(Vertex(2.0, 0.0, 0.0));
 
-    BufferData* vbd = new BufferData(verts, iNumElements, 3 * sizeof(float));
+    std::vector<unsigned int> indicies;
+    indicies.push_back(0);
+    indicies.push_back(1);
+    indicies.push_back(2);
+
+    Mesh mesh = Mesh(verticies, indicies);
+
+    return CreateRenderObject(&mesh, pShader);
+}
+
+RenderObject* Renderer::CreateRenderObject(Mesh* pMesh, Shader* pShader)
+{
+    std::vector<Vertex>& verts = pMesh->GetVerticies();
+
+    BufferData* vbd = new BufferData(verts.data(), verts.size(), sizeof(Vertex));
     VertexBuffer* pVB = m_pDevice->CreateVertexBuffer(vbd);
 
-    BufferData* idb = new BufferData(inds, iNumElements, sizeof(unsigned int));
+    std::vector<unsigned int> inds = pMesh->GetIndicies();
+
+    BufferData* idb = new BufferData(inds.data(), inds.size(), sizeof(unsigned int));
     Buffer* pIB = m_pDevice->CreateIndexBuffer(idb);
 
-	return new RenderObject(pShader, pVB, pIB, iNumElements);
+    return new RenderObject(pShader, pVB, pIB, inds.size());
 }
 
 void Renderer::Resize(int iWidth, int iHeight)

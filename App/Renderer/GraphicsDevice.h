@@ -5,8 +5,9 @@
 #include <EGL/egl.h>
 #include <emscripten/html5.h>
 
+#include "Shader.h"
+
 #include "../Graphics/Buffer.h"
-#include "../Graphics/Shader.h"
 #include "../Graphics/RenderObject.h"
 #include "../Graphics/Camera.h"
 
