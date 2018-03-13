@@ -13,8 +13,6 @@ extern "C"{
 
 }
 
-Application* pApplication = 0;
-
 static EM_BOOL KeyDown(int eventType, const EmscriptenKeyboardEvent *e, void *userData)
 {
     // unsigned long charCode = e->charCode;
@@ -23,26 +21,26 @@ static EM_BOOL KeyDown(int eventType, const EmscriptenKeyboardEvent *e, void *us
     // unsigned long loc = e->location;
     // printf("Key down event\nChar: %d, Key: %d, Which: %d, Location: %d\n", (int)charCode, (int)keyCode, (int)which, (int)loc);
 
-    pApplication->KeyDown(e);
+    Application::Get()->KeyDown(e);
     return 0;
 }
 
 static EM_BOOL KeyUp(int eventType, const EmscriptenKeyboardEvent *e, void *userData)
 {
-    pApplication->KeyUp(e);
+    Application::Get()->KeyUp(e);
     return 0;
 
 }
 
 static EM_BOOL MouseEvent(int eventType, const EmscriptenMouseEvent *mouseEvent, void *userData)
 {
-    pApplication->MouseEvent(mouseEvent);
+    Application::Get()->MouseEvent(mouseEvent);
     return 0;
 }
 
 void Initialize(int iWidth, int iHeight)
 {
-    if(!pApplication)
+    if(!Application::Get())
     {
         emscripten_set_keydown_callback(0,0,1, KeyDown);
         emscripten_set_keyup_callback(0,0, 1, KeyUp);
@@ -50,8 +48,7 @@ void Initialize(int iWidth, int iHeight)
         emscripten_set_mousedown_callback(0,0,1, MouseEvent);
         emscripten_set_mouseup_callback(0,0,1,MouseEvent);
 
-
-        pApplication = new Application(iWidth, iHeight);
+        Application::Initialize(iWidth, iHeight);
     }
     else
     {
@@ -70,17 +67,7 @@ void Frame()
     double dDelta = dCurrentTime - dLastTime;
     dLastTime = dCurrentTime;
 
-    // dAccumalation += dDelta;
-    // ++iFrames;
-
-    // if(dAccumalation >= 1.0f)
-    // {
-    //     printf("%d\n", iFrames);
-    //     iFrames = 0;
-    //     dAccumalation = 0.0;
-    // }
-    
-    pApplication->Frame(dDelta);
+    Application::Get()->Frame(dDelta);
 
 }
 
@@ -92,5 +79,5 @@ void Update()
 
 void Resize(int iWidth, int iHeight)
 {
-	pApplication->OnResize(iWidth, iHeight);
+	Application::Get()->OnResize(iWidth, iHeight);
 }

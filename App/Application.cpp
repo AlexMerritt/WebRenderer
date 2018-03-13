@@ -3,8 +3,18 @@
 #include "Graphics/Scene.h"
 #include "Graphics/ShaderPrograms.h"
 
+Application* s_pApplication = 0;
 
-EMSCRIPTEN_WEBGL_CONTEXT_HANDLE context;
+void Application::Initialize(int iWidth, int iHeight)
+{
+    s_pApplication = new Application(iWidth, iHeight);
+    s_pApplication->Startup();
+}
+
+Application* Application::Get()
+{
+    return s_pApplication;
+}
 
 void output_error(int error, const char* msg)
 {
@@ -19,11 +29,10 @@ Application::Application(int iWidth, int iHeight)
 
     printf("Initializing window to %d, %d\n", m_iWindowWidth, m_iWindowHeight);
 
-    Initialize();
     m_strAppName = "Renderer";
 }
 
-void Application::Initialize()
+void Application::Startup()
 {
     m_pKeyboard = new Keyboard();
     Keyboard::Set(m_pKeyboard);

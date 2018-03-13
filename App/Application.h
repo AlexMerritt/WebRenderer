@@ -10,9 +10,10 @@
 
 class Application{
 public:
-    Application(int iWidth, int iHeight);
+    static void Initialize(int iWidth, int iHeight);
+    static Application* Get();
 
-    void Initialize();
+public:
     void Frame(double dDelta);
 
 	void OnResize(int iWidth, int iHeight);
@@ -22,6 +23,10 @@ public:
     void MouseEvent(const EmscriptenMouseEvent* e);
 
 protected:
+    Application(int iWidth, int iHeight);
+
+    void Startup();
+
     void Update(double dDelta);
     void Render();
 
