@@ -22,6 +22,8 @@ public:
     void KeyUp(const EmscriptenKeyboardEvent* e);
     void MouseEvent(const EmscriptenMouseEvent* e);
 
+    Renderer* GetRenderer() { return m_pRenderer; }
+
 protected:
     Application(int iWidth, int iHeight);
 
