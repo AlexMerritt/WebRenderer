@@ -8,7 +8,7 @@
 
 #include <string>
 
-class Application{
+class Application {
 public:
     static void Initialize(int iWidth, int iHeight);
     static Application* Get();
@@ -28,6 +28,7 @@ protected:
     Application(int iWidth, int iHeight);
 
     void Startup();
+    void CreateSystems();
 
     void Update(double dDelta);
     void Render();

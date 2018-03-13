@@ -1,8 +1,9 @@
 #include "Scene.h"
 #include "Mesh.h"
 #include "../Util/Input.h"
-#include "../Application.h"
 #include "ShaderPrograms.h"
+#include "../ServiceProvider.h"
+#include "../Renderer/Renderer.h"
 
 Scene::Scene(const std::string& strSceneName, int iWindowWidth, int iWindowHeight)
 {
@@ -28,7 +29,7 @@ Scene::Scene(const std::string& strSceneName, int iWindowWidth, int iWindowHeigh
 
     Mesh mesh = Mesh(verticies, indicies);
 
-    Renderer* pRenderer = Application::Get()->GetRenderer();
+    Renderer* pRenderer = Systems::Get<Renderer>();
 
     RenderObject* pRO = pRenderer->CreateRenderObject(&mesh, vs, fShaderStr);
     AddRenderObject(pRO);

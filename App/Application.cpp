@@ -1,6 +1,7 @@
 #include "Application.h"
 #include "Util.h"
 #include "Graphics/Scene.h"
+#include "ServiceProvider.h"
 
 Application* s_pApplication = 0;
 
@@ -33,23 +34,30 @@ Application::Application(int iWidth, int iHeight)
 
 void Application::Startup()
 {
-    m_pKeyboard = new Keyboard();
-    Keyboard::Set(m_pKeyboard);
-
-    m_pMouse = new Mouse();
-    Mouse::Set(m_pMouse);
-
-    m_pRenderer = new Renderer();
-    m_pRenderer->Initialize();
+    CreateSystems();
 
     Log("Creating scene");
 
     m_pScene = new Scene("Test Scene", m_iWindowWidth, m_iWindowHeight);
 
 
+    m_pRenderer = Systems::Get<Renderer>();
     m_pRenderer->SetScene(m_pScene);
 
     Log("Application Initalized");
+}
+
+void Application::CreateSystems()
+{
+    m_pRenderer = new Renderer();
+    Systems::Register<Renderer>(m_pRenderer);
+
+    m_pKeyboard = new Keyboard();
+    Keyboard::Set(m_pKeyboard);
+
+    m_pMouse = new Mouse();
+    Mouse::Set(m_pMouse);
+
 }
 
 void Application::KeyDown(const EmscriptenKeyboardEvent* e)

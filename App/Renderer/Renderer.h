@@ -5,14 +5,16 @@
 #include "../Graphics/Scene.h"
 #include "../Graphics/Mesh.h"
 
+#include "../ServiceProvider.h"
+
 #include <vector>
 
 
-class Renderer
+class Renderer : public MainSystem
 {
 public:
     Renderer();
-    void Initialize();
+    virtual void Initialize();
 
 	// RenderObject* CreateRenderObject(char* vertexShaderText, char* fragmentShaderText);
     RenderObject* CreateRenderObject(Mesh* pMesh, char* vertexShaderText, char* fragmentShaderText);
