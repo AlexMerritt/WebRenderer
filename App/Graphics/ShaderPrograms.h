@@ -1,3 +1,6 @@
+#ifndef __SHADER_PROGRAM__
+#define __SHADER_PROGRAM__
+
 char vShaderStr[] =
       "#version 300 es                          \n"
       "layout(location = 0) in vec4 vPosition;  \n"
@@ -26,3 +29,5 @@ char fShaderStr[] =
     "   fragColor = vec4 ( 1.0, 0.0, 0.0, 1.0 );  \n"
     "}                                            \n";
 
+
+#endif
