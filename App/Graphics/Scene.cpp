@@ -38,15 +38,25 @@ Scene::Scene(const std::string& strSceneName, int iWindowWidth, int iWindowHeigh
 void Scene::Update(double dDelta)
 {
 
-    if(Keyboard::Get()->IsKeyDown(65))
+    if(Keyboard::Get()->IsKeyDown(KeyCode::D))
     {
         m_pCamera->Move(Vector3(0.1f, 0.0f, 0.0f));
     }
-    else if(Keyboard::Get()->IsKeyDown(68))
+    
+    if(Keyboard::Get()->IsKeyDown(KeyCode::A))
     {
         m_pCamera->Move(Vector3(-0.1f, 0.0f, 0.0f));
     }
 
+    if(Keyboard::Get()->IsKeyDown(KeyCode::W))
+    {
+        m_pCamera->Move(Vector3(0, 0.0f, 0.1f));
+    }
+
+    if(Keyboard::Get()->IsKeyDown(KeyCode::S))
+    {
+        m_pCamera->Move(Vector3(0, 0, -0.1f));
+    }
 
     m_pCamera->Update();
 }
