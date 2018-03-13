@@ -1,7 +1,6 @@
 #include "Application.h"
 #include "Util.h"
 #include "Graphics/Scene.h"
-#include "Graphics/ShaderPrograms.h"
 
 Application* s_pApplication = 0;
 
@@ -46,8 +45,7 @@ void Application::Startup()
     Log("Creating scene");
 
     m_pScene = new Scene("Test Scene", m_iWindowWidth, m_iWindowHeight);
-    RenderObject* pRO = m_pRenderer->CreateRenderObject(vs, fShaderStr);
-    m_pScene->AddRenderObject(pRO);
+
 
     m_pRenderer->SetScene(m_pScene);
 

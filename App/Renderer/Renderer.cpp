@@ -9,36 +9,14 @@ void Renderer::Initialize()
     m_pDevice = new GraphicsDevice(); 
     m_pDevice->Initialize();
 
-	// RenderObject* pObj = CreateRenderObject();
-	// m_objects.push_back(pObj);
-
     m_pDevice->SetClearColor(0.2f, 0.5f, 0.1f);
 
     Log("Renderer Initialized");
 }
 
-RenderObject* Renderer::CreateRenderObject(char* vertexShaderText, char* fragmentShaderText)
+RenderObject* Renderer::CreateRenderObject(Mesh* pMesh, char* vertexShaderText, char* fragmentShaderText)
 {
-	Shader* pShader = m_pDevice->CreateProgram(vertexShaderText, fragmentShaderText);
-
-    std::vector<Vertex> verticies;
-
-    verticies.push_back(Vertex(0.0, 0.0, 0.0));
-    verticies.push_back(Vertex(0.0, 1.0, 0.0));
-    verticies.push_back(Vertex(2.0, 0.0, 0.0));
-
-    std::vector<unsigned int> indicies;
-    indicies.push_back(0);
-    indicies.push_back(1);
-    indicies.push_back(2);
-
-    Mesh mesh = Mesh(verticies, indicies);
-
-    return CreateRenderObject(&mesh, pShader);
-}
-
-RenderObject* Renderer::CreateRenderObject(Mesh* pMesh, Shader* pShader)
-{
+    Shader* pShader = m_pDevice->CreateProgram(vertexShaderText, fragmentShaderText);
     std::vector<Vertex>& verts = pMesh->GetVerticies();
 
     BufferData* vbd = new BufferData(verts.data(), verts.size(), sizeof(Vertex));

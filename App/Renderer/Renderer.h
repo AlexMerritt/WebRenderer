@@ -14,8 +14,8 @@ public:
     Renderer();
     void Initialize();
 
-	RenderObject* CreateRenderObject(char* vertexShaderText, char* fragmentShaderText);
-    RenderObject* CreateRenderObject(Mesh* pMesh, Shader* pShader);
+	// RenderObject* CreateRenderObject(char* vertexShaderText, char* fragmentShaderText);
+    RenderObject* CreateRenderObject(Mesh* pMesh, char* vertexShaderText, char* fragmentShaderText);
 
     void SetScene(Scene* pScene) { m_pScene = pScene; }
 
