@@ -1,5 +1,8 @@
 #include "Scene.h"
+#include "Mesh.h"
 #include "../Util/Input.h"
+#include "../Application.h"
+#include "ShaderPrograms.h"
 
 Scene::Scene(const std::string& strSceneName, int iWindowWidth, int iWindowHeight)
 {
@@ -10,6 +13,25 @@ Scene::Scene(const std::string& strSceneName, int iWindowWidth, int iWindowHeigh
 
     m_pCamera = new Camera(); 
     m_pCamera->SetProjection(fFov, fAspectRatio, 0.1f, 1000.0f);
+
+    // Create the meshs
+    std::vector<Vertex> verticies;
+
+    verticies.push_back(Vertex(-1.0, 2.0, 0.0));
+    verticies.push_back(Vertex(0.0, -1.0, 0.0));
+    verticies.push_back(Vertex(2.0, 0.0, 0.0));
+
+    std::vector<unsigned int> indicies;
+    indicies.push_back(0);
+    indicies.push_back(1);
+    indicies.push_back(2);
+
+    Mesh mesh = Mesh(verticies, indicies);
+
+    Renderer* pRenderer = Application::Get()->GetRenderer();
+
+    RenderObject* pRO = pRenderer->CreateRenderObject(&mesh, vs, fShaderStr);
+    AddRenderObject(pRO);
 }
 
 void Scene::Update(double dDelta)
