@@ -2,6 +2,13 @@
 #define __BUFFER__
 
 #include <cstdio>
+// #include <vector>
+
+struct AttributeInfo
+{
+    AttributeInfo(unsigned int iStride) : Stride(iStride) {}
+    unsigned int Stride;
+};
 
 struct BufferData
 {
@@ -13,10 +20,12 @@ struct BufferData
     size_t GetElementSize() { return m_elementSize; }
     size_t GetNumElements() { return m_numElements; }
     size_t GetBufferSize() { return m_elementSize * m_numElements; }
+    // std::vector<AttributeInfo> GetAttributes() { return m_attributes; }
 
     void* m_data;
     unsigned int m_numElements;
     unsigned int m_elementSize;
+    // vector<AttributeInfo> m_attributes;
 };
 
 struct Buffer
@@ -34,6 +43,8 @@ private:
     unsigned int m_buffer;
     unsigned int m_numElements;
     unsigned int m_itemSize;
+
+    
 };
 
 struct VertexBuffer : Buffer

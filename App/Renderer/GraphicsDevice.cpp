@@ -141,7 +141,36 @@ VertexBuffer* GraphicsDevice::CreateVertexBuffer(BufferData* pData)
     glBindBuffer(GL_ARRAY_BUFFER, vb);
 
     glEnableVertexAttribArray(0);
-    glVertexAttribPointer(0, pData->GetElementSize() / sizeof(float), GL_FLOAT, false, pData->GetElementSize(), 0);
+
+    std::vector<AttributeInfo> attributes;
+    attributes.push_back(AttributeInfo(sizeof(float) * 3));
+
+    unsigned int iAttributeStartPosition = 0;
+
+    for(unsigned int i = 0; i < attributes.size(); ++i)
+    {
+        AttributeInfo attribute = attributes[i];
+
+        unsigned int iIndex = i;
+        unsigned int iNumFloats = attribute.Stride / sizeof(float);
+        unsigned int iElementSize = attribute.Stride;
+        
+
+        glVertexAttribPointer(iIndex, iNumFloats, GL_FLOAT, false, iElementSize, (unsigned char*)iAttributeStartPosition);
+        iAttributeStartPosition += attribute.Stride;
+    }
+
+    // vector<AttributeInfo> attributes;
+
+    // unsinged int iNumElements = 
+
+    // for(unsigned int i = 0; i < attributes; ++i)
+    // {
+    //     AttributeInfo attribute = attributes[i];
+    //     glVertexAttribPointer(i, pData->GetElementSize() / sizeof(float), GL_FLOAT, false, pData->GetElementSize(), 0);
+
+    // }
+    // glVertexAttribPointer(1, )
 
     glBindVertexArray(0);
     glBindBuffer(GL_ARRAY_BUFFER, 0);	
