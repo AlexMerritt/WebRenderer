@@ -27,6 +27,8 @@ public:
 protected:
     void UpdateCameras(int iWindowWidth, int iWindowHeight);
 
+    void CreateModel();
+
 
 protected:
     std::string m_strSceneName;
