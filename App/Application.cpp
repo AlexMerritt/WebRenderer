@@ -76,6 +76,23 @@ void Application::MouseEvent(const EmscriptenMouseEvent* e)
 
 void Application::Frame(double dDelta)
 {
+    if(false)
+    {
+        static double dAccumalation = 0;
+        static int iFrames = 0;
+
+        dAccumalation += dDelta;
+        ++iFrames;
+
+        if(dAccumalation >= 1.0)
+        {
+            printf("%d\n", iFrames);
+            iFrames = 0;
+            dAccumalation = 0.0;
+        }
+    }
+
+
     Update(dDelta);
     Render();
 }

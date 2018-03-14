@@ -57,8 +57,7 @@ void Initialize(int iWidth, int iHeight)
 }
 
 double dLastTime = 0;
-double dAccumalation = 0;
-int iFrames = 0;
+
 
 void Frame()
 {
