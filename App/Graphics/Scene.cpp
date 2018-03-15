@@ -15,7 +15,8 @@ Scene::Scene(const std::string& strSceneName, int iWindowWidth, int iWindowHeigh
     m_pCamera = new Camera(); 
     m_pCamera->SetProjection(fFov, fAspectRatio, 0.1f, 1000.0f);
 
-    CreateModel();
+    // CreateModel();
+    CreateTest();
 }
 
 void Scene::Update(double dDelta)
@@ -125,7 +126,7 @@ void Scene::CreateModel()
         }
     }
 
-    Mesh mesh = Mesh(verticies, indicies);
+    Mesh mesh = Mesh(verticies, Vertex::GetAttributes(), sizeof(Vertex), indicies);
 
     Renderer* pRenderer = Systems::Get<Renderer>();
 
@@ -137,5 +138,15 @@ void Scene::CreateTest()
 {
     std::vector<Vertex> verts;
 
-    //verts.push_back(Vertex())
+    verts.push_back(Vertex(Vector3(0,1,0), Vector3(0.5f, 0, 0)));
+    verts.push_back(Vertex(Vector3(-3,0,0), Vector3(0, 0, 0.5f)));
+    verts.push_back(Vertex(Vector3(1,0,0), Vector3(0, 0.5f, 0)));
+
+    std::vector<unsigned int> inds;
+    inds.push_back(0);
+    inds.push_back(1);
+    inds.push_back(2);
+
+    Mesh mesh = Mesh(verts, Vertex::GetAttributes(), sizeof(Vertex), inds);
+    AddRenderObject(Systems::Get<Renderer>()->CreateRenderObject(&mesh, vs, fShaderStr));
 }

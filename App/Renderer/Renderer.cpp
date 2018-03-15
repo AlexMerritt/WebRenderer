@@ -9,7 +9,7 @@ void Renderer::Initialize()
     m_pDevice = new GraphicsDevice(); 
     m_pDevice->Initialize();
 
-    m_pDevice->SetClearColor(0.2f, 0.5f, 0.1f);
+    m_pDevice->SetClearColor(0.05f, 0.1f, 0.05f);
 
     Log("Renderer Initialized");
 }
@@ -19,7 +19,7 @@ RenderObject* Renderer::CreateRenderObject(Mesh* pMesh, char* vertexShaderText, 
     Shader* pShader = m_pDevice->CreateProgram(vertexShaderText, fragmentShaderText);
     std::vector<Vertex>& verts = pMesh->GetVerticies();
 
-    VertexBufferData* vbd = new VertexBufferData(verts.data(), verts.size(), 0, Vertex::GetAttributes());
+    VertexBufferData* vbd = new VertexBufferData(verts.data(), verts.size(), pMesh->GetVertexElementSize(), pMesh->GetAttributes());
     VertexBuffer* pVB = m_pDevice->CreateVertexBuffer(vbd);
 
     std::vector<unsigned int> inds = pMesh->GetIndicies();

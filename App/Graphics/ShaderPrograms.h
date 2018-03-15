@@ -11,7 +11,8 @@ char vShaderStr[] =
       
 char vs[] =
     "#version 300 es                                         \n"
-    "layout(location = 0) in vec4 inputPosition;             \n"
+    "in vec4 inputPosition;             \n"
+    "in vec4 inputColor;                \n"
     "uniform mat4 ViewMatrix;                                \n"
     "uniform mat4 ProjectionMatrix;                          \n"
     "out vec3 color;                                         \n"
@@ -19,7 +20,7 @@ char vs[] =
     "{                                                       \n"
     "    gl_Position = ViewMatrix * inputPosition;           \n"
     "    gl_Position = ProjectionMatrix * gl_Position;       \n"
-    "    color = vec3(0.25, 0.1, 0.65);                      \n"
+    "    color = inputColor.xyz;                             \n"
     "}";
 
 char fShaderStr[] =

@@ -70,8 +70,7 @@ Shader* GraphicsDevice::CreateProgram(char* vertexShaderText, char* fragmentShad
     if(program){
         glAttachShader(program, vertexShader);
         glAttachShader(program, fragmentShader);
-
-
+        
         glLinkProgram(program);
 
         pResult = new Shader(program);
@@ -140,8 +139,6 @@ VertexBuffer* GraphicsDevice::CreateVertexBuffer(VertexBufferData* pData)
 
     glBindBuffer(GL_ARRAY_BUFFER, vb);
 
-    glEnableVertexAttribArray(0);
-
     std::vector<VertexAttribute> attributes = pData->GetAttributes();
 
     unsigned int iAttributeStartPosition = 0;
@@ -150,12 +147,12 @@ VertexBuffer* GraphicsDevice::CreateVertexBuffer(VertexBufferData* pData)
     {
         VertexAttribute attribute = attributes[i];
 
-        unsigned int iIndex = i;
-        unsigned int iNumFloats = attribute.Stride / sizeof(float);
-        unsigned int iElementSize = attribute.Stride;
-        
+        unsigned int iNumFloats = attribute.Stride / sizeof(float); // Maybe some day include this size in the attribute
 
-        glVertexAttribPointer(iIndex, iNumFloats, GL_FLOAT, false, iElementSize, (unsigned char*)iAttributeStartPosition);
+        glEnableVertexAttribArray(i);
+
+        glVertexAttribPointer(i, iNumFloats, GL_FLOAT, false, pData->GetElementSize(), (unsigned char*)0 + iAttributeStartPosition);
+
         iAttributeStartPosition += attribute.Stride;
     }
 
