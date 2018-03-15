@@ -56,7 +56,6 @@ void Scene::UpdateCameras(int iWindowWidth, int iWindowHeight)
     float fAspectRatio = (float)iWindowWidth / (float)iWindowHeight;
 
     m_pCamera = new Camera();
-    m_pCamera->SetPosition(Vector3(0, 0, -10)); 
     m_pCamera->SetProjection(fFov, fAspectRatio, 0.1f, 1000.0f);
 }
 
