@@ -1,31 +1,41 @@
 #ifndef __BUFFER__
 #define __BUFFER__
 
-#include <cstdio>
-// #include <vector>
+#include "Attribute.h"
 
-struct AttributeInfo
-{
-    AttributeInfo(unsigned int iStride) : Stride(iStride) {}
-    unsigned int Stride;
-};
+#include <cstdio>
+ #include <vector>
+
 
 struct BufferData
 {
-    BufferData(void* data, unsigned int numElements, unsigned int elementSize) : m_data(data), m_numElements(numElements), m_elementSize(elementSize) {}
+    BufferData(void* data, unsigned int numElements, unsigned int elementSize) : 
+        m_data(data), m_numElements(numElements), m_elementSize(elementSize) {}
 
-    //inline operator const void*() const { return m_data; }
+    inline operator const void*() const { return m_data; }
     void* GetData() { return m_data; }
 
     size_t GetElementSize() { return m_elementSize; }
     size_t GetNumElements() { return m_numElements; }
     size_t GetBufferSize() { return m_elementSize * m_numElements; }
-    // std::vector<AttributeInfo> GetAttributes() { return m_attributes; }
-
+     
+protected:
     void* m_data;
     unsigned int m_numElements;
     unsigned int m_elementSize;
-    // vector<AttributeInfo> m_attributes;
+    
+};
+
+struct VertexBufferData : public BufferData
+{
+    VertexBufferData(void* data, unsigned int numElements, unsigned int elementSize, std::vector<VertexAttribute> attributes) :
+        BufferData(data, numElements, elementSize), m_attributes(attributes) {}
+
+    std::vector<VertexAttribute> GetAttributes() { return m_attributes; }
+
+protected:
+    
+    std::vector<VertexAttribute> m_attributes;
 };
 
 struct Buffer
@@ -43,8 +53,6 @@ private:
     unsigned int m_buffer;
     unsigned int m_numElements;
     unsigned int m_itemSize;
-
-    
 };
 
 struct VertexBuffer : Buffer

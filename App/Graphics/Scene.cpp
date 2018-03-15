@@ -132,3 +132,10 @@ void Scene::CreateModel()
     RenderObject* pRO = pRenderer->CreateRenderObject(&mesh, vs, fShaderStr);
     AddRenderObject(pRO);
 }
+
+void Scene::CreateTest()
+{
+    std::vector<Vertex> verts;
+
+    //verts.push_back(Vertex())
+}

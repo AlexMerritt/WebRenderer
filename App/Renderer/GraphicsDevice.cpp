@@ -123,7 +123,7 @@ GLuint GraphicsDevice::CreateShader(GLenum type, char* shaderText)
     return shader;
 }
 
-VertexBuffer* GraphicsDevice::CreateVertexBuffer(BufferData* pData)
+VertexBuffer* GraphicsDevice::CreateVertexBuffer(VertexBufferData* pData)
 {
     GLuint vertexArray;
     GLuint vb;
@@ -142,14 +142,13 @@ VertexBuffer* GraphicsDevice::CreateVertexBuffer(BufferData* pData)
 
     glEnableVertexAttribArray(0);
 
-    std::vector<AttributeInfo> attributes;
-    attributes.push_back(AttributeInfo(sizeof(float) * 3));
+    std::vector<VertexAttribute> attributes = pData->GetAttributes();
 
     unsigned int iAttributeStartPosition = 0;
 
     for(unsigned int i = 0; i < attributes.size(); ++i)
     {
-        AttributeInfo attribute = attributes[i];
+        VertexAttribute attribute = attributes[i];
 
         unsigned int iIndex = i;
         unsigned int iNumFloats = attribute.Stride / sizeof(float);
@@ -160,20 +159,8 @@ VertexBuffer* GraphicsDevice::CreateVertexBuffer(BufferData* pData)
         iAttributeStartPosition += attribute.Stride;
     }
 
-    // vector<AttributeInfo> attributes;
-
-    // unsinged int iNumElements = 
-
-    // for(unsigned int i = 0; i < attributes; ++i)
-    // {
-    //     AttributeInfo attribute = attributes[i];
-    //     glVertexAttribPointer(i, pData->GetElementSize() / sizeof(float), GL_FLOAT, false, pData->GetElementSize(), 0);
-
-    // }
-    // glVertexAttribPointer(1, )
-
     glBindVertexArray(0);
-    glBindBuffer(GL_ARRAY_BUFFER, 0);	
+    glBindBuffer(GL_ARRAY_BUFFER, 0);
 
     HASERROR();
 
@@ -219,7 +206,7 @@ void GraphicsDevice::Render(Camera* pCamera, RenderObject* pRO)
     glUseProgram(pShader->GetShader());
     HASERROR();
 
-    //// Set the camera data
+    // Set the camera data
     SetUniformMatrix(pShader, "ViewMatrix", pCamera->GetViewMatrix());
     SetUniformMatrix(pShader, "ProjectionMatrix", pCamera->GetProjectionMatrix());
 

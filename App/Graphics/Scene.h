@@ -28,7 +28,7 @@ protected:
     void UpdateCameras(int iWindowWidth, int iWindowHeight);
 
     void CreateModel();
-
+    void CreateTest();
 
 protected:
     std::string m_strSceneName;

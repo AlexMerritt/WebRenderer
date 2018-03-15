@@ -22,7 +22,7 @@ public:
     void Initialize();
 
     Shader* CreateProgram(char* vertexShaderText, char* fragmentShaderText);
-    VertexBuffer* CreateVertexBuffer(BufferData* pData);
+    VertexBuffer* CreateVertexBuffer(VertexBufferData* pData);
     Buffer* CreateIndexBuffer(BufferData* pData);
 
     // void Draw(Buffer* pVB, Buffer* pIB, ShaderProgram* pProgram);
