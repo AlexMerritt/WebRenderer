@@ -15,6 +15,27 @@ Scene::Scene(const std::string& strSceneName, int iWindowWidth, int iWindowHeigh
     m_pCamera = new Camera(); 
     m_pCamera->SetProjection(fFov, fAspectRatio, 0.1f, 1000.0f);
 
+    // Json test
+    nlohmann::json j = {
+        {"pi", 3.141},
+        {"happy", true},
+        {"name", "Niels"},
+        {"nothing", nullptr},
+        {"answer", {
+            {"everything", 42}
+        }},
+        {"list", {1, 0, 2}},
+        {"object", {
+            {"currency", "USD"},
+            {"value", 42.99}
+        }}
+    };
+
+    std::string name = j["name"];
+    float piz = j["pi"];
+    printf("%f\n", piz);
+    printf("%s\n", name.c_str());
+
     // CreateModel();
     CreateTest();
 }
@@ -130,6 +151,7 @@ void Scene::CreateModel()
 
     Renderer* pRenderer = Systems::Get<Renderer>();
 
+    // Material* pMat = pRenderer->CreateMaterial();
     RenderObject* pRO = pRenderer->CreateRenderObject(&mesh, vs, fShaderStr);
     AddRenderObject(pRO);
 }
