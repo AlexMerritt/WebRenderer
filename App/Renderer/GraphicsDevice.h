@@ -21,7 +21,7 @@ public:
     GraphicsDevice() {}
     void Initialize();
 
-    Shader* CreateProgram(char* vertexShaderText, char* fragmentShaderText);
+    Shader* CreateProgram(const char* vertexShaderText, const char* fragmentShaderText);
     VertexBuffer* CreateVertexBuffer(VertexBufferData* pData);
     Buffer* CreateIndexBuffer(BufferData* pData);
 
@@ -36,7 +36,7 @@ public:
 	void Resize(int iWidth, int iHeight);
 
 protected:
-    GLuint CreateShader(GLenum type, char* shaderText);
+    GLuint CreateShader(GLenum type, const char* shaderText);
 
     void SetUniformMatrix(Shader* shader, const std::string& param, Matrix4 km);
 

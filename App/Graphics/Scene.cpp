@@ -15,11 +15,13 @@ Scene::Scene(const std::string& strSceneName, int iWindowWidth, int iWindowHeigh
     m_pCamera = new Camera(); 
     m_pCamera->SetProjection(fFov, fAspectRatio, 0.1f, 1000.0f);
 
+    std::string strN = "test name";
+
     // Json test
     nlohmann::json j = {
         {"pi", 3.141},
         {"happy", true},
-        {"name", "Niels"},
+        {"name", strN},
         {"nothing", nullptr},
         {"answer", {
             {"everything", 42}
@@ -151,8 +153,8 @@ void Scene::CreateModel()
 
     Renderer* pRenderer = Systems::Get<Renderer>();
 
-    // Material* pMat = pRenderer->CreateMaterial();
-    RenderObject* pRO = pRenderer->CreateRenderObject(&mesh, vs, fShaderStr);
+    Material* pMat = pRenderer->CreateMaterial(COLOR_SHADER);
+    RenderObject* pRO = pRenderer->CreateRenderObject(&mesh, pMat);
     AddRenderObject(pRO);
 }
 
@@ -169,6 +171,10 @@ void Scene::CreateTest()
     inds.push_back(1);
     inds.push_back(2);
 
+    Renderer* pRenderer = Systems::Get<Renderer>();
+
     Mesh mesh = Mesh(verts, Vertex::GetAttributes(), sizeof(Vertex), inds);
-    AddRenderObject(Systems::Get<Renderer>()->CreateRenderObject(&mesh, vs, fShaderStr));
+    Material* pMat = pRenderer->CreateMaterial(COLOR_SHADER);
+
+    AddRenderObject(pRenderer->CreateRenderObject(&mesh, pMat));
 }

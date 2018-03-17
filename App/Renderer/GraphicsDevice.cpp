@@ -1,5 +1,6 @@
 #include "GraphicsDevice.h"
 #include "../Util.h"
+#include "../Graphics/Material.h"
 #include <vector>
 
 
@@ -55,7 +56,7 @@ void GraphicsDevice::Initialize()
     Log("Graphics Device Initialized");
 }
 
-Shader* GraphicsDevice::CreateProgram(char* vertexShaderText, char* fragmentShaderText)
+Shader* GraphicsDevice::CreateProgram(const char* vertexShaderText, const char* fragmentShaderText)
 {
     Shader* pResult = 0;
 
@@ -79,7 +80,7 @@ Shader* GraphicsDevice::CreateProgram(char* vertexShaderText, char* fragmentShad
     return pResult;
 }
 
-GLuint GraphicsDevice::CreateShader(GLenum type, char* shaderText)
+GLuint GraphicsDevice::CreateShader(GLenum type, const char* shaderText)
 {
     GLuint shader = 0;
 
@@ -198,7 +199,8 @@ void GraphicsDevice::Resize(int iWidth, int iHeight)
 
 void GraphicsDevice::Render(Camera* pCamera, RenderObject* pRO)
 {
-    Shader* pShader = pRO->GetShader();
+    Material* pMaterial = pRO->GetMaterial();
+    Shader* pShader = pMaterial->GetShader();
 
     glUseProgram(pShader->GetShader());
     HASERROR();
