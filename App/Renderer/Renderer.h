@@ -23,6 +23,8 @@ public:
     RenderObject* CreateRenderObject(Mesh* pMesh, Material* pMaterial);
     Material* CreateMaterial(std::string strShaderName);
 
+    void Update(RenderObject* pRO, Mesh* pMesh);
+
     void SetScene(Scene* pScene) { m_pScene = pScene; }
 
 	void Resize(int iWidth, int iHeight);

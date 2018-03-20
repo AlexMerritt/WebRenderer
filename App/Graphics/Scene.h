@@ -4,6 +4,7 @@
 #include "RenderObject.h"
 #include "Camera.h"
 #include "../Util/Json.h"
+#include "Mesh.h"
 
 #include <vector>
 #include <string>
@@ -35,6 +36,9 @@ protected:
     std::string m_strSceneName;
     std::vector<RenderObject*> m_renderObjects;
     Camera* m_pCamera;
+
+    RenderObject* pObj;
+    Mesh* pMesh;
 };
 
 #endif

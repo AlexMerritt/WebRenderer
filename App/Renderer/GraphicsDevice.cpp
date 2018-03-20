@@ -132,6 +132,7 @@ VertexBuffer* GraphicsDevice::CreateVertexBuffer(VertexBufferData* pData)
     glBindVertexArray(vertexArray);
 
     glGenBuffers(1, &vb);
+
     glBindBuffer(GL_ARRAY_BUFFER, vb);
     glBufferData(GL_ARRAY_BUFFER, pData->GetBufferSize(), pData->GetData(), GL_DYNAMIC_DRAW);
     glBindBuffer(GL_ARRAY_BUFFER, 0);
@@ -178,6 +179,15 @@ Buffer* GraphicsDevice::CreateIndexBuffer(BufferData* pData)
     HASERROR();
 
     return new Buffer(ib, pData->GetNumElements(), pData->GetElementSize());
+}
+
+void GraphicsDevice::UpdateBuffer(Buffer* pBuffer, BufferData* pData)
+{
+    GLuint buffer = pBuffer->GetBuffer();
+
+    glBindBuffer(GL_ARRAY_BUFFER, buffer);
+    glBufferData(GL_ARRAY_BUFFER, pData->GetBufferSize(), pData->GetData(), GL_DYNAMIC_DRAW);
+    glBindBuffer(GL_ARRAY_BUFFER, 0);
 }
 
 void GraphicsDevice::SetUniformMatrix(Shader* pShader, const std::string& strParam, Matrix4 m)

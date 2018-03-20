@@ -25,6 +25,8 @@ public:
     VertexBuffer* CreateVertexBuffer(VertexBufferData* pData);
     Buffer* CreateIndexBuffer(BufferData* pData);
 
+    void UpdateBuffer(Buffer* pBuffer, BufferData* pData);
+
     // void Draw(Buffer* pVB, Buffer* pIB, ShaderProgram* pProgram);
     // void Render(Shader* pProgram, VertexBuffer* pVertBuffer, Buffer* pIndexBuffer);
     void Render(Camera* pCamera, RenderObject* pRO);

@@ -28,6 +28,9 @@ RenderObject* Renderer::CreateRenderObject(Mesh* pMesh, const std::string& verte
     BufferData* idb = new BufferData(inds.data(), inds.size(), sizeof(unsigned int));
     Buffer* pIB = m_pDevice->CreateIndexBuffer(idb);
 
+    delete vbd;
+    delete idb;
+
     return new RenderObject(new Material(pShader), pVB, pIB, inds.size());
 }
 
@@ -42,6 +45,9 @@ RenderObject* Renderer::CreateRenderObject(Mesh* pMesh, Material* pMaterial)
 
     BufferData* idb = new BufferData(inds.data(), inds.size(), sizeof(unsigned int));
     Buffer* pIB = m_pDevice->CreateIndexBuffer(idb);
+
+    delete vbd;
+    delete idb;
 
     return new RenderObject(pMaterial, pVB, pIB, inds.size());
 }
@@ -73,6 +79,14 @@ Material* Renderer::CreateMaterial(std::string strShaderName)
     }
 
     return new Material(pShader);
+}
+
+void Renderer::Update(RenderObject* pObj, Mesh* pMesh)
+{
+    std::vector<Vertex>& verts = pMesh->GetVerticies();
+    VertexBufferData* vbd = new VertexBufferData(verts.data(), verts.size(), pMesh->GetVertexElementSize(), pMesh->GetAttributes());
+
+    m_pDevice->UpdateBuffer(pObj->GetVertexBuffer(), vbd);
 }
 
 void Renderer::Resize(int iWidth, int iHeight)

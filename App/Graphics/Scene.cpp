@@ -38,8 +38,8 @@ Scene::Scene(const std::string& strSceneName, int iWindowWidth, int iWindowHeigh
     printf("%f\n", piz);
     printf("%s\n", name.c_str());
 
-    // CreateModel();
-    CreateTest();
+    CreateModel();
+    // CreateTest();
 }
 
 void Scene::Update(double dDelta)
@@ -66,6 +66,14 @@ void Scene::Update(double dDelta)
     }
 
     m_pCamera->Update();
+
+    // Update buffer
+    std::vector<Vertex>& verts = pMesh->GetVerticies();
+    Vertex& vertex = verts[0];
+    Vector3 color = vertex.Color;
+    color.x += 0.01f;
+    vertex.Color = color;
+    Systems::Get<Renderer>()->Update(pObj, pMesh);
 }
 
 void Scene::Resize(int iWindowWidth, int iWindowHeight)
@@ -148,13 +156,13 @@ void Scene::CreateModel()
         }
     }
 
-    Mesh mesh = Mesh(verticies, Vertex::GetAttributes(), sizeof(Vertex), indicies);
+    pMesh = new Mesh(verticies, Vertex::GetAttributes(), sizeof(Vertex), indicies);
 
     Renderer* pRenderer = Systems::Get<Renderer>();
 
     Material* pMat = pRenderer->CreateMaterial(COLOR_SHADER);
-    RenderObject* pRO = pRenderer->CreateRenderObject(&mesh, pMat);
-    AddRenderObject(pRO);
+    pObj = pRenderer->CreateRenderObject(pMesh, pMat);
+    AddRenderObject(pObj);
 }
 
 void Scene::CreateTest()
@@ -172,8 +180,10 @@ void Scene::CreateTest()
 
     Renderer* pRenderer = Systems::Get<Renderer>();
 
-    Mesh mesh = Mesh(verts, Vertex::GetAttributes(), sizeof(Vertex), inds);
+    pMesh = new Mesh(verts, Vertex::GetAttributes(), sizeof(Vertex), inds);
     Material* pMat = pRenderer->CreateMaterial(COLOR_SHADER);
 
-    AddRenderObject(pRenderer->CreateRenderObject(&mesh, pMat));
+    pObj = pRenderer->CreateRenderObject(pMesh, pMat);
+
+    AddRenderObject(pObj);
 }
