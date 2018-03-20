@@ -209,6 +209,14 @@ void GraphicsDevice::Render(Camera* pCamera, RenderObject* pRO)
     SetUniformMatrix(pShader, "ViewMatrix", pCamera->GetViewMatrix());
     SetUniformMatrix(pShader, "ProjectionMatrix", pCamera->GetProjectionMatrix());
 
+    std::map<std::string, ShaderParameter*> parameters = pMaterial->GetParameters();
+
+    for(auto iter = parameters.begin(); iter != parameters.end(); ++iter)
+    {
+        ShaderParameter* pParam = iter->second;
+        // 
+    }
+
 
     glBindVertexArray(pRO->GetVertexBuffer()->GetVertexArray());
     HASERROR();
