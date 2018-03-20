@@ -1,15 +1,23 @@
 #ifndef __SHADER_PROGRAM__
 #define __SHADER_PROGRAM__
 
-char vShaderStr[] =
-      "#version 300 es                          \n"
-      "layout(location = 0) in vec4 vPosition;  \n"
-      "void main()                              \n"
-      "{                                        \n"
-      "   gl_Position = vPosition;              \n"
-      "}                                        \n";
-      
-char vs[] =
+#include <string>
+#include <map>
+
+struct ShaderSource
+{
+    ShaderSource(const std::string& strVertexSource, const std::string& strFragmentSource)
+    {
+        VertexShaderSource  = strVertexSource;
+        FragmentShaderSource = strFragmentSource;
+    }
+
+    std::string VertexShaderSource;
+    std::string FragmentShaderSource;
+};
+
+// Shader Sources
+static const std::string strColorVertex =
     "#version 300 es                                         \n"
     "in vec4 inputPosition;             \n"
     "in vec4 inputColor;                \n"
@@ -23,7 +31,7 @@ char vs[] =
     "    color = inputColor.xyz;                             \n"
     "}";
 
-char fShaderStr[] =
+static const std::string strColorFragment =
     "#version 300 es                              \n"
     "precision mediump float;                     \n"
     "in vec3 color;                               \n"
@@ -32,6 +40,14 @@ char fShaderStr[] =
     "{                                            \n"
     "   fragColor = vec4 ( color, 1.0 );  \n"
     "}                                            \n";
+
+// Shader Names
+static const std::string COLOR_SHADER = "ColorShader";
+
+// Shader mapping
+static std::map<std::string, ShaderSource*> s_shaderSource = {
+    {COLOR_SHADER, new ShaderSource(strColorVertex, strColorFragment)}
+};
 
 
 #endif

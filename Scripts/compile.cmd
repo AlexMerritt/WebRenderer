@@ -47,7 +47,7 @@ if EXIST %file% (
 
   call :SetupAdditionalBuildFlags
 
-  set buildcall=call emcc -o %bindir%\%outFile%!sourceFiles! %optimizationLevel% --shell-file %libdir%/%htmlTemplate%
+  set buildcall=call emcc -o %bindir%\%outFile%!sourceFiles! %optimizationLevel% --shell-file %libdir%/%htmlTemplate% -std=c++11
 
   for /L %%j in (0,1,%numAdditionalFlags%) do (
     call set addtl=%%additionalFlags[%%j]%%

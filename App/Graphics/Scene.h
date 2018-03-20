@@ -3,6 +3,7 @@
 
 #include "RenderObject.h"
 #include "Camera.h"
+#include "../Util/Json.h"
 
 #include <vector>
 #include <string>
