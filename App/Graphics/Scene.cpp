@@ -79,7 +79,7 @@ void Scene::Randomize()
 {
     std::vector<Vertex>& verts = pMesh->GetVerticies();
 
-    int iMaxUpates = verts.size() - 1;
+    int iMaxUpates = verts.size()  - 1;
 
     int iPointsToUpdate = rand() % iMaxUpates;
 
@@ -122,7 +122,6 @@ void Scene::UpdateCameras(int iWindowWidth, int iWindowHeight)
     float fFov = 90.0f;
     float fAspectRatio = (float)iWindowWidth / (float)iWindowHeight;
 
-    m_pCamera = new Camera();
     m_pCamera->SetProjection(fFov, fAspectRatio, 0.1f, 1000.0f);
 }
 
@@ -130,7 +129,7 @@ void Scene::CreateModel()
 {
     const float fLevelHeight = 0.05f;
 
-    int iNumLevels = 100;
+    int iNumLevels = 250;
     float fCurrentHeight = -((iNumLevels / 2) * fLevelHeight);
 
     int iNumFacesPerLevel = 360;
