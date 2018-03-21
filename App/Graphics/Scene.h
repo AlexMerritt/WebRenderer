@@ -29,6 +29,8 @@ public:
 protected:
     void UpdateCameras(int iWindowWidth, int iWindowHeight);
 
+    void Randomize();
+
     void CreateModel();
     void CreateTest();
 

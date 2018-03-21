@@ -5,6 +5,8 @@
 #include "../ServiceProvider.h"
 #include "../Renderer/Renderer.h"
 
+#include <stdlib.h>
+
 Scene::Scene(const std::string& strSceneName, int iWindowWidth, int iWindowHeight)
 {
     m_strSceneName = strSceneName;
@@ -14,6 +16,8 @@ Scene::Scene(const std::string& strSceneName, int iWindowWidth, int iWindowHeigh
 
     m_pCamera = new Camera(); 
     m_pCamera->SetProjection(fFov, fAspectRatio, 0.1f, 1000.0f);
+    
+    m_pCamera->SetPosition(Vector3(0, 0, -10));
 
     std::string strN = "test name";
 
@@ -67,12 +71,44 @@ void Scene::Update(double dDelta)
 
     m_pCamera->Update();
 
-    // Update buffer
+    Randomize();
+    
+}
+
+void Scene::Randomize()
+{
     std::vector<Vertex>& verts = pMesh->GetVerticies();
-    Vertex& vertex = verts[0];
-    Vector3 color = vertex.Color;
-    color.x += 0.01f;
-    vertex.Color = color;
+
+    int iMaxUpates = verts.size() - 1;
+
+    int iPointsToUpdate = rand() % iMaxUpates;
+
+    
+
+    for(int i = 0; i < iPointsToUpdate; ++i){
+        int iPoint = rand() % (verts.size() - 1);
+        
+        float fScale = (float) rand()/RAND_MAX;
+        fScale *= 0.1f;
+
+        int iDir = ((rand() % 2) * 2) - 1;
+
+        // printf("Num Verts:%d, Updating %d\n", verts.size(), iPointsToUpdate);
+        // printf("%d\n", iPoint);
+        Vertex& vertex = verts[iPoint];
+        Vector3 position = vertex.Position;
+
+        // int iLength = position.x + position.z;
+        // int iXDir = (position.x / iLength) * iDir;
+        // int iZDir = (position.z / iLength) * iDir;
+
+        // position.x = (float)iXDir * fScale;
+        // position.z = (float)iZDir * fScale;
+        position.x += (float)iDir * fScale;
+
+        vertex.Position = position;
+    }
+
     Systems::Get<Renderer>()->Update(pObj, pMesh);
 }
 
@@ -113,7 +149,10 @@ void Scene::CreateModel()
             float fX = sin(fAngle) * fWidth;
             float fZ = cos(fAngle) * fWidth;
 
-            verticies.push_back(Vertex(fX, fCurrentHeight, fZ));        
+            Vector3 position(fX, fCurrentHeight, fZ);
+            Vector3 color(0.5f, 0.7f, 0.5f);
+
+            verticies.push_back(Vertex(position, color));        
 
         }
         fCurrentHeight += fLevelHeight;
