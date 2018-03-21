@@ -216,8 +216,8 @@ void GraphicsDevice::Render(Camera* pCamera, RenderObject* pRO)
     HASERROR();
 
     // Set the camera data
-    SetUniformMatrix(pShader, "ViewMatrix", pCamera->GetViewMatrix());
-    SetUniformMatrix(pShader, "ProjectionMatrix", pCamera->GetProjectionMatrix());
+    // SetUniformMatrix(pShader, "ViewMatrix", pCamera->GetViewMatrix());
+    SetUniformMatrix(pShader, "ViewProjectionMatrix", pCamera->GetViewProjection());
 
     std::map<std::string, ShaderParameter*> parameters = pMaterial->GetParameters();
 
