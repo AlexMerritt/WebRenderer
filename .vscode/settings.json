@@ -33,6 +33,27 @@
         "xmemory": "cpp",
         "xmemory0": "cpp",
         "xstddef": "cpp",
-        "xtr1common": "cpp"
+        "xtr1common": "cpp",
+        "algorithm": "cpp",
+        "array": "cpp",
+        "clocale": "cpp",
+        "ctime": "cpp",
+        "forward_list": "cpp",
+        "functional": "cpp",
+        "iomanip": "cpp",
+        "iterator": "cpp",
+        "list": "cpp",
+        "map": "cpp",
+        "memory": "cpp",
+        "numeric": "cpp",
+        "sstream": "cpp",
+        "tuple": "cpp",
+        "unordered_map": "cpp",
+        "valarray": "cpp",
+        "xfunctional": "cpp",
+        "xhash": "cpp",
+        "xlocmon": "cpp",
+        "xloctime": "cpp",
+        "xtree": "cpp"
     }
 }
