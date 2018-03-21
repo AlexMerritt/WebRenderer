@@ -27,8 +27,8 @@ function RunApp(){
 }
 
 function Resize() {
-    iWidth = 640;
-    iHeight = 480;
+    iWidth = window.innerWidth;
+    iHeight = window.innerHeight;
     SetCanvasSize(iWidth, iHeight);
 
 
