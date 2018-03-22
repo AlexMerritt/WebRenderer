@@ -192,19 +192,46 @@ void GraphicsDevice::UpdateBuffer(Buffer* pBuffer, BufferData* pData)
 
 void GraphicsDevice::SetUniformMatrix(Shader* pShader, const std::string& strParam, Matrix4 m)
 {
-	GLuint loc = glGetUniformLocation(pShader->GetShader(), strParam.c_str());
-	if (loc == -1)
-	{
-		Log("Param: " + strParam + " does not exist in shader");
-		return;
-	}
+    GLuint loc = glGetUniformLocation(pShader->GetShader(), strParam.c_str());
+    if (loc == -1)
+    {
+        Log("Param: " + strParam + " does not exist in shader");
+        return;
+    }
 
-	glUniformMatrix4fv(loc, 1, false, m);
+    glUniformMatrix4fv(loc, 1, false, m);
 }
+
+void GraphicsDevice::SetUinformFloat(Shader* pShader, FloatParameter* pParam)
+{
+    GLuint loc = glGetUniformLocation(pShader->GetShader(), pParam->Name.c_str());
+    if (loc == -1)
+    {
+        printf("Float Param: %s does not exist in shader\n", pParam->Name.c_str());
+        return;
+    }
+
+    switch(pParam->Value.size())
+    {
+    case 1:
+        glUniform1f(loc, pParam->Value[0]);
+        break;
+    case 2:
+        glUniform2f(loc, pParam->Value[0], pParam->Value[1]);
+        break;
+    case 3:
+        glUniform3f(loc, pParam->Value[0], pParam->Value[1], pParam->Value[3]);
+        break;
+    case 4:
+        glUniform4f(loc, pParam->Value[0], pParam->Value[1], pParam->Value[3], pParam->Value[4]);
+        break;
+    }
+}
+
 
 void GraphicsDevice::Resize(int iWidth, int iHeight)
 {
-	glViewport( 0, 0, iWidth, iHeight);
+    glViewport( 0, 0, iWidth, iHeight);
 }
 
 void GraphicsDevice::Render(Camera* pCamera, RenderObject* pRO)
@@ -219,14 +246,12 @@ void GraphicsDevice::Render(Camera* pCamera, RenderObject* pRO)
     // SetUniformMatrix(pShader, "ViewMatrix", pCamera->GetViewMatrix());
     SetUniformMatrix(pShader, "ViewProjectionMatrix", pCamera->GetViewProjection());
 
-    std::map<std::string, ShaderParameter*> parameters = pMaterial->GetParameters();
-
-    for(auto iter = parameters.begin(); iter != parameters.end(); ++iter)
+    std::vector<FloatParameter*>& floatParams = pMaterial->GetFloatParams();
+    for (unsigned int i = 0; i < floatParams.size(); ++i)
     {
-        ShaderParameter* pParam = iter->second;
-        // 
+        FloatParameter* pParam = floatParams[i];
+        SetUinformFloat(pShader, pParam);
     }
-
 
     glBindVertexArray(pRO->GetVertexBuffer()->GetVertexArray());
     HASERROR();
@@ -241,7 +266,7 @@ void GraphicsDevice::Render(Camera* pCamera, RenderObject* pRO)
 
 void GraphicsDevice::SetClearColor(float r, float g, float b)
 {
-	glClearColor(r, g, b, 1.0);
+    glClearColor(r, g, b, 1.0);
 }
 
 void GraphicsDevice::Clear()

@@ -71,7 +71,7 @@ void Scene::Update(double dDelta)
 
     m_pCamera->Update();
 
-    Randomize();
+    //Randomize();
     
 }
 
@@ -199,6 +199,17 @@ void Scene::CreateModel()
     Renderer* pRenderer = Systems::Get<Renderer>();
 
     Material* pMat = pRenderer->CreateMaterial(COLOR_SHADER);
+    std::vector<float> colors;
+    colors.push_back(0.5f);
+    colors.push_back(-0.1f);
+    colors.push_back(-0.2f);
+
+    FloatParameter* pColorsParam = new FloatParameter();
+    pColorsParam->Name = "ColorOffset";
+    pColorsParam->Value = colors;
+
+    pMat->SetFloatParam(pColorsParam);
+
     pObj = pRenderer->CreateRenderObject(pMesh, pMat);
     AddRenderObject(pObj);
 }

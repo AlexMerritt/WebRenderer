@@ -34,9 +34,11 @@ static const std::string strColorFragment =
     "precision mediump float;                     \n"
     "in vec3 color;                               \n"
     "out vec4 fragColor;                          \n"
+    "uniform  vec3 ColorOffset;                         \n"
     "void main()                                  \n"
     "{                                            \n"
-    "   fragColor = vec4 ( color, 1.0 );  \n"
+    "   vec3 c = color + ColorOffset;             \n"
+    "   fragColor = vec4 ( c, 1.0 );              \n"
     "}                                            \n";
 
 // Shader Names

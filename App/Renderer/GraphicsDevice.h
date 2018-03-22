@@ -41,6 +41,7 @@ protected:
     GLuint CreateShader(GLenum type, const char* shaderText);
 
     void SetUniformMatrix(Shader* shader, const std::string& param, Matrix4 km);
+    void SetUinformFloat(Shader* pShader, FloatParameter* pParam);
 
 protected:
     EMSCRIPTEN_WEBGL_CONTEXT_HANDLE m_context;

@@ -6,18 +6,24 @@
 #include <map>
 #include <string>   
 
-enum ParameterType
+struct Parameter
 {
-    eFloat
+    std::string Name;
 };
 
-struct ShaderParameter
+struct TextureParameter : Parameter
 {
-    std::string ParameterName;
-    void* Value;
-    ParameterType Type;
-    int Size;
+    //TextureHandle value;
+};
 
+struct FloatParameter : Parameter
+{
+    std::vector<float> Value;
+};
+
+struct IntParameter : Parameter
+{
+    std::vector<int> Value;
 };
 
 class Material
@@ -31,27 +37,45 @@ public:
 
     Shader* GetShader() { return m_pShader; }
 
-    void SetParameter(ShaderParameter* pParam) { m_parameters[pParam->ParameterName] = pParam;}
-    ShaderParameter* GetParameter(std::string strParameter)
+    void SetFloatParam(FloatParameter* pParam)
     {
-        ShaderParameter* pResult = 0;
-
-        if(m_parameters.find(strParameter) != m_parameters.end())
+        FloatParameter* pCurrentParam = GetFloatParam(pParam->Name);
+        // If it does not exists
+        if(!pCurrentParam)
         {
-            pResult = m_parameters[strParameter];
+            m_floatParams.push_back(pParam);
+        }
+        else
+        {
+            pCurrentParam->Value = pParam->Value;
+        }
+    }
+
+    FloatParameter* GetFloatParam(std::string strParameterName)
+    {
+        FloatParameter* pResult = 0;
+
+        for(int i = 0; i < m_floatParams.size(); ++i)
+        {
+            FloatParameter* pCurrentParam = m_floatParams[i];
+            if(pCurrentParam->Name == strParameterName)
+            {
+                pResult = pCurrentParam;
+
+            }
         }
 
         return pResult;
     }
 
-    std::map<std::string, ShaderParameter*> GetParameters() { return m_parameters; }
 
+    std::vector<FloatParameter*>& GetFloatParams() { return m_floatParams; }
 protected:
     Shader* m_pShader;
 
-    std::map<std::string, ShaderParameter*> m_parameters; // Switch this to a vector so that I have faster iteration when setting the values
-
-
+    std::vector<FloatParameter*> m_floatParams;
+    std::vector<IntParameter*> m_intParams;
+    std::vector<TextureParameter*> m_textureParams;
 };
 
 #endif
