@@ -48,36 +48,50 @@ Scene::Scene(const std::string& strSceneName, int iWindowWidth, int iWindowHeigh
 
 void Scene::Update(double dDelta)
 {
+    float fSpeed = 10.0f * (dDelta);
 
     if(Keyboard::Get()->IsKeyDown(KeyCode::D))
     {
-        m_pCamera->Move(Vector3(0.1f, 0.0f, 0.0f));
+        m_pCamera->Move(Vector3(fSpeed, 0.0f, 0.0f));
     }
     
     if(Keyboard::Get()->IsKeyDown(KeyCode::A))
     {
-        m_pCamera->Move(Vector3(-0.1f, 0.0f, 0.0f));
+        m_pCamera->Move(Vector3(-fSpeed, 0.0f, 0.0f));
     }
 
     if(Keyboard::Get()->IsKeyDown(KeyCode::W))
     {
-        m_pCamera->Move(Vector3(0, 0.0f, 0.1f));
+        m_pCamera->Move(Vector3(0, 0.0f, fSpeed));
     }
 
     if(Keyboard::Get()->IsKeyDown(KeyCode::S))
     {
-        m_pCamera->Move(Vector3(0, 0, -0.1f));
+        m_pCamera->Move(Vector3(0, 0, -fSpeed));
     }
 
     m_pCamera->Update();
 
-    //Randomize();
+    int iRandValue = rand() % 3;
+
+    float fVal = m_pOffsetColorParam->Value[iRandValue];
+
+    fVal += 0.025f;
+    if(fVal > 1.0f)
+    {
+        fVal = 0.0f;
+    }
+
+    m_pOffsetColorParam->Value[iRandValue] = fVal;
+
+
+    Randomize();
     
 }
 
 void Scene::Randomize()
 {
-    std::vector<Vertex>& verts = pMesh->GetVerticies();
+    std::vector<Vertex>& verts = m_pMesh->GetVerticies();
 
     int iMaxUpates = verts.size()  - 1;
 
@@ -109,7 +123,7 @@ void Scene::Randomize()
         vertex.Position = position;
     }
 
-    Systems::Get<Renderer>()->Update(pObj, pMesh);
+    Systems::Get<Renderer>()->Update(m_pObj, m_pMesh);
 }
 
 void Scene::Resize(int iWindowWidth, int iWindowHeight)
@@ -129,7 +143,7 @@ void Scene::CreateModel()
 {
     const float fLevelHeight = 0.05f;
 
-    int iNumLevels = 250;
+    int iNumLevels = 100;
     float fCurrentHeight = -((iNumLevels / 2) * fLevelHeight);
 
     int iNumFacesPerLevel = 360;
@@ -194,7 +208,7 @@ void Scene::CreateModel()
         }
     }
 
-    pMesh = new Mesh(verticies, Vertex::GetAttributes(), sizeof(Vertex), indicies);
+    m_pMesh = new Mesh(verticies, Vertex::GetAttributes(), sizeof(Vertex), indicies);
 
     Renderer* pRenderer = Systems::Get<Renderer>();
 
@@ -204,14 +218,14 @@ void Scene::CreateModel()
     colors.push_back(-0.1f);
     colors.push_back(-0.2f);
 
-    FloatParameter* pColorsParam = new FloatParameter();
-    pColorsParam->Name = "ColorOffset";
-    pColorsParam->Value = colors;
+    m_pOffsetColorParam = new FloatParameter();
+    m_pOffsetColorParam->Name = "ColorOffset";
+    m_pOffsetColorParam->Value = colors;
 
-    pMat->SetFloatParam(pColorsParam);
+    pMat->SetFloatParam(m_pOffsetColorParam);
 
-    pObj = pRenderer->CreateRenderObject(pMesh, pMat);
-    AddRenderObject(pObj);
+    m_pObj = pRenderer->CreateRenderObject(m_pMesh, pMat);
+    AddRenderObject(m_pObj);
 }
 
 void Scene::CreateTest()
@@ -229,10 +243,10 @@ void Scene::CreateTest()
 
     Renderer* pRenderer = Systems::Get<Renderer>();
 
-    pMesh = new Mesh(verts, Vertex::GetAttributes(), sizeof(Vertex), inds);
+    m_pMesh = new Mesh(verts, Vertex::GetAttributes(), sizeof(Vertex), inds);
     Material* pMat = pRenderer->CreateMaterial(COLOR_SHADER);
 
-    pObj = pRenderer->CreateRenderObject(pMesh, pMat);
+    m_pObj = pRenderer->CreateRenderObject(m_pMesh, pMat);
 
-    AddRenderObject(pObj);
+    AddRenderObject(m_pObj);
 }
