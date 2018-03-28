@@ -84,9 +84,12 @@ void Scene::Update(double dDelta)
 
     m_pOffsetColorParam->Value[iRandValue] = fVal;
 
+    
+    float fRotationSpeed = 1.7f / 2.0f * dDelta;
 
     Randomize();
-    
+    Vector3 rotation = Vector3(fRotationSpeed / 2.0f, fRotationSpeed / 3.0f, fRotationSpeed);
+    m_pObj->GetTransform()->Rotate(rotation);
 }
 
 void Scene::Randomize()
@@ -95,15 +98,13 @@ void Scene::Randomize()
 
     int iMaxUpates = verts.size()  - 1;
 
-    int iPointsToUpdate = rand() % iMaxUpates;
-
-    
+    int iPointsToUpdate = rand() % iMaxUpates;    
 
     for(int i = 0; i < iPointsToUpdate; ++i){
         int iPoint = rand() % (verts.size() - 1);
         
         float fScale = (float) rand()/RAND_MAX;
-        fScale *= 0.1f;
+        fScale *= 0.015f;
 
         int iDir = ((rand() % 2) * 2) - 1;
 
@@ -141,9 +142,9 @@ void Scene::UpdateCameras(int iWindowWidth, int iWindowHeight)
 
 void Scene::CreateModel()
 {
-    const float fLevelHeight = 0.05f;
+    const float fLevelHeight = 0.03f;
 
-    int iNumLevels = 100;
+    int iNumLevels = 200;
     float fCurrentHeight = -((iNumLevels / 2) * fLevelHeight);
 
     int iNumFacesPerLevel = 360;
