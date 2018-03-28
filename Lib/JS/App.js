@@ -12,9 +12,14 @@ function SetCanvasSize(iWidth, iHeight){
 }
 
 function StartApp() {
+    iWidth = window.innerWidth;
+    iHeight = window.innerHeight;
+    SetCanvasSize(iWidth, iHeight);
+    
     canvasSize = GetCanvasSize();
 
     Module.ccall("Initialize", "null", ["number", "number"], [canvasSize[0], canvasSize[1]]);
+    Frame();
 }
 
 function Frame(){
