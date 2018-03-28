@@ -21,11 +21,11 @@ static const std::string strColorVertex =
     "#version 300 es                                         \n"
     "in vec4 inputPosition;             \n"
     "in vec4 inputColor;                \n"
-    "uniform mat4 ViewProjectionMatrix;                                \n"
+    "uniform mat4 WorldViewProjectionMatrix;                                \n"
     "out vec3 color;                                         \n"
     "void main(void)                                         \n"
     "{                                                       \n"
-    "    gl_Position = ViewProjectionMatrix * inputPosition;           \n"
+    "    gl_Position = WorldViewProjectionMatrix * inputPosition;           \n"
     "    color = inputColor.xyz;                             \n"
     "}";
 

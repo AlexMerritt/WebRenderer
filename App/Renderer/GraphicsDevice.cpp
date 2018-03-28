@@ -245,7 +245,7 @@ void GraphicsDevice::Render(Camera* pCamera, RenderObject* pRO)
     // Set the camera data
     // SetUniformMatrix(pShader, "ViewMatrix", pCamera->GetViewMatrix());
     Matrix4 mat = pRO->GetTransform()->GetMatrix() * pCamera->GetViewProjection();
-    SetUniformMatrix(pShader, "ViewProjectionMatrix", mat);
+    SetUniformMatrix(pShader, "WorldViewProjectionMatrix", mat);
 
     std::vector<FloatParameter*>& floatParams = pMaterial->GetFloatParams();
     for (unsigned int i = 0; i < floatParams.size(); ++i)
