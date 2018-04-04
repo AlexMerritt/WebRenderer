@@ -7,6 +7,10 @@
 
 #include <stdlib.h>
 
+const int NUM_FACES_PER_LEVEL = 360;
+int NUM_LEVELS = 100;
+const float fLevelHeight = 0.05f;
+
 Scene::Scene(const std::string& strSceneName, int iWindowWidth, int iWindowHeight)
 {
     m_strSceneName = strSceneName;
@@ -42,7 +46,14 @@ Scene::Scene(const std::string& strSceneName, int iWindowWidth, int iWindowHeigh
     printf("%f\n", piz);
     printf("%s\n", name.c_str());
 
-    CreateModel();
+    m_pMesh = CreateMesh();
+
+    m_pObj = CreateModel(m_pMesh);
+    m_pObj->GetTransform()->Move(Vector3(5.0f, 0.0f, 0.0f));
+
+    m_pObj2 = CreateModel(m_pMesh);
+    m_pObj2->GetTransform()->Move(Vector3(-5.0f, 0.0f, 0.0f));
+    m_pObj2->GetTransform()->SetScale(Vector3(0.5f, 0.5f, 0.5f));
     // CreateTest();
 }
 
@@ -72,35 +83,51 @@ void Scene::Update(double dDelta)
 
     m_pCamera->Update();
 
-    int iRandValue = rand() % 3;
+    // int iRandValue = rand() % 3;
 
-    float fVal = m_pOffsetColorParam->Value[iRandValue];
+    // float fVal = m_pOffsetColorParam->Value[iRandValue];
 
-    fVal += 0.025f;
-    if(fVal > 1.0f)
-    {
-        fVal = 0.0f;
-    }
+    // fVal += 0.025f;
+    // if(fVal > 1.0f)
+    // {
+    //     fVal = 0.0f;
+    // }
 
-    m_pOffsetColorParam->Value[iRandValue] = fVal;
+    // m_pOffsetColorParam->Value[iRandValue] = fVal;
+
+    static float colorAngle = 0.0f;
+
+    m_pOffsetColorParam->Value[0] = sin(colorAngle);
+    m_pOffsetColorParam->Value[1] = cos(colorAngle / 3.0f);
+    m_pOffsetColorParam->Value[2] = tan(colorAngle / 6.3f);
+
+    colorAngle +=  dDelta;
 
     
     float fRotationSpeed = 1.7f / 2.0f * dDelta;
 
-    Randomize();
+    Randomize(m_pMesh);
+
+    Systems::Get<Renderer>()->Update(m_pObj, m_pMesh);
+
     Vector3 rotation = Vector3(fRotationSpeed / 2.0f, fRotationSpeed / 3.0f, fRotationSpeed);
     m_pObj->GetTransform()->Rotate(rotation);
+
+    Systems::Get<Renderer>()->Update(m_pObj2, m_pMesh);
+    Vector3 rotation2 = Vector3(fRotationSpeed / 5.0f, fRotationSpeed, fRotationSpeed * 1.5f);
+    m_pObj2->GetTransform()->Rotate(rotation2);
 }
 
-void Scene::Randomize()
+void Scene::Randomize(Mesh* pMesh)
 {
-    std::vector<Vertex>& verts = m_pMesh->GetVerticies();
+    std::vector<Vertex>& verts = pMesh->GetVerticies();
 
     int iMaxUpates = verts.size()  - 1;
 
     int iPointsToUpdate = rand() % iMaxUpates;    
 
-    for(int i = 0; i < iPointsToUpdate; ++i){
+    for(int i = 0; i < iPointsToUpdate; ++i)
+    {
         int iPoint = rand() % (verts.size() - 1);
         
         float fScale = (float) rand()/RAND_MAX;
@@ -124,7 +151,64 @@ void Scene::Randomize()
         vertex.Position = position;
     }
 
-    Systems::Get<Renderer>()->Update(m_pObj, m_pMesh);
+    for(int i = 0; i < NUM_LEVELS; ++i)
+    {
+        int levelStartIndex = i * NUM_FACES_PER_LEVEL;
+        int levelEndIndex = ((i + 1) * NUM_FACES_PER_LEVEL) - 1;
+        int previousLevel = i - 1;
+        if(previousLevel < 0) {
+            previousLevel = 1;
+        }
+
+        previousLevel *= NUM_FACES_PER_LEVEL;
+
+        // printf("%d, %d, %d\n", previousLevel, levelStartIndex, levelEndIndex);
+        
+        for(int j = 0; j < NUM_FACES_PER_LEVEL; ++j)
+        {
+            int iCurrentIndex = levelStartIndex + j;
+            int iNext;
+            int iPrev;
+
+            iNext = iCurrentIndex + 1;
+            if(iNext >= levelEndIndex)
+            {
+                iNext = levelStartIndex;
+            }
+
+            iPrev = previousLevel + j;
+
+            // printf("%d, %d, %d\n", iPrev, iCurrentIndex, iNext);
+            // iPrev = iCurrentIndex - 1;
+            // if(iPrev < levelStartIndex)
+            // {
+            //     iPrev = levelEndIndex;
+            // }
+
+            Vertex& vert = verts[iCurrentIndex];
+
+            Vertex& next = verts[iNext];
+            Vertex& prev = verts[iPrev];
+
+            // printf("(%f, %f, %f), (%f, %f, %f), (%f, %f, %f)\n", prev.Position.x, prev.Position.y, prev.Position.z, vert.Position.x, vert.Position.y, vert.Position.z, next.Position.x, next.Position.y, next.Position.z);
+
+            Vector3 u = next.Position - vert.Position;
+            Vector3 v = prev.Position - vert.Position;
+
+            Vector3 normal = CrossP(u, v);
+            normal.Normalize();
+
+            // printf("%f, %f, %f\n", normal.x, normal.y, normal.z);
+
+            // float nX, nY, nZ;
+
+            // nX = (u.y * v.z) - (u.z * v.y);
+            // nY = (u.z * v.x) - (u.x * v.z);
+            // nZ = (u.x * v.y) - (u.y * v.x);
+
+            vert.Normal = normal;
+        }
+    }
 }
 
 void Scene::Resize(int iWindowWidth, int iWindowHeight)
@@ -140,24 +224,23 @@ void Scene::UpdateCameras(int iWindowWidth, int iWindowHeight)
     m_pCamera->SetProjection(fFov, fAspectRatio, 0.1f, 1000.0f);
 }
 
-void Scene::CreateModel()
+Mesh* Scene::CreateMesh()
 {
-    const float fLevelHeight = 0.03f;
+    
 
-    int iNumLevels = 200;
-    float fCurrentHeight = -((iNumLevels / 2) * fLevelHeight);
+    float fCurrentHeight = -((NUM_LEVELS / 2) * fLevelHeight);
 
-    int iNumFacesPerLevel = 360;
+    
 
     float fWidth = 3.0f;
 
-    float fPercentAngle = (360.0f / (float)iNumFacesPerLevel) * 0.0174533f;
+    float fPercentAngle = (360.0f / (float)NUM_FACES_PER_LEVEL) * 0.0174533f;
 
     std::vector<Vertex> verticies;
 
-    for(int j = 0; j < iNumLevels + 1; ++j)
+    for(int j = 0; j < NUM_LEVELS + 1; ++j)
     {
-        for(int i = 0; i < iNumFacesPerLevel; ++i)
+        for(int i = 0; i < NUM_FACES_PER_LEVEL; ++i)
         {
             float fAngle = fPercentAngle * (float)i;
             float fX = sin(fAngle) * fWidth;
@@ -176,22 +259,22 @@ void Scene::CreateModel()
 
     std::vector<unsigned int> indicies;
 
-    for(int j = 0; j < iNumLevels; ++j)
+    for(int j = 0; j < NUM_LEVELS; ++j)
     {
-        int iCurrentLevelIndex = j * iNumFacesPerLevel;
+        int iCurrentLevelIndex = j * NUM_FACES_PER_LEVEL;
 
-        for(int i = 0; i < iNumFacesPerLevel; ++i)
+        for(int i = 0; i < NUM_FACES_PER_LEVEL; ++i)
         {
             int iCurr = iCurrentLevelIndex + i;
             int iCurrentLevelNextIndex;
 
-            int iNextLevelIndex = iCurrentLevelIndex + i + iNumFacesPerLevel;
+            int iNextLevelIndex = iCurrentLevelIndex + i + NUM_FACES_PER_LEVEL;
             int iNextLevelNextIndex;
 
-            if((i + 1) >= iNumFacesPerLevel)
+            if((i + 1) >= NUM_FACES_PER_LEVEL)
             {
                 iCurrentLevelNextIndex = iCurrentLevelIndex;
-                iNextLevelNextIndex = iCurrentLevelIndex + iNumFacesPerLevel;
+                iNextLevelNextIndex = iCurrentLevelIndex + NUM_FACES_PER_LEVEL;
             }
             else
             {
@@ -209,8 +292,11 @@ void Scene::CreateModel()
         }
     }
 
-    m_pMesh = new Mesh(verticies, Vertex::GetAttributes(), sizeof(Vertex), indicies);
+    return new Mesh(verticies, Vertex::GetAttributes(), sizeof(Vertex), indicies);
+}
 
+RenderObject* Scene::CreateModel(Mesh* pMesh)
+{
     Renderer* pRenderer = Systems::Get<Renderer>();
 
     Material* pMat = pRenderer->CreateMaterial(COLOR_SHADER);
@@ -225,8 +311,10 @@ void Scene::CreateModel()
 
     pMat->SetFloatParam(m_pOffsetColorParam);
 
-    m_pObj = pRenderer->CreateRenderObject(m_pMesh, pMat);
-    AddRenderObject(m_pObj);
+    RenderObject* pObj = pRenderer->CreateRenderObject(pMesh, pMat);
+    AddRenderObject(pObj);
+
+    return pObj;
 }
 
 void Scene::CreateTest()

@@ -10,13 +10,13 @@ struct Vertex
     Vertex(float x, float y, float z)
     {
         Position = Vector3(x, y, z);
-        Color = Vector3(0, 0, 0);
+        Normal = Vector3(0, 0, 0);
     }
 
-    Vertex(Vector3 position, Vector3 color)
+    Vertex(Vector3 position, Vector3 normal)
     {
         Position = position;
-        Color = color;
+        Normal = normal;
     }
 
     static std::vector<VertexAttribute> GetAttributes()
@@ -30,7 +30,7 @@ struct Vertex
     }
 
     Vector3 Position;
-    Vector3 Color;
+    Vector3 Normal;
 };
 
 #endif

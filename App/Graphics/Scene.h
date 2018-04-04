@@ -29,9 +29,11 @@ class Scene
   protected:
     void UpdateCameras(int iWindowWidth, int iWindowHeight);
 
-    void Randomize();
+    void Randomize(Mesh* pMesh);
 
-    void CreateModel();
+    Mesh* CreateMesh();
+
+    RenderObject* CreateModel(Mesh* pMesh);
     void CreateTest();
 
   protected:
@@ -40,6 +42,7 @@ class Scene
     Camera *m_pCamera;
 
     RenderObject* m_pObj;
+    RenderObject* m_pObj2;
     Mesh* m_pMesh;
     FloatParameter* m_pOffsetColorParam;
 };
