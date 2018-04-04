@@ -12,17 +12,18 @@ public:
     Matrix4 GetMatrix()
     {
         Matrix4 mat = Matrix4::Identity;
-        mat = Matrix4::CreateScale(m_scale) * mat;
-        mat = Matrix4::CreateRotationZ(m_rotation.z) * mat;
-        mat = Matrix4::CreateRotationY(m_rotation.y) * mat;
-        mat = Matrix4::CreateRotationX(m_rotation.x) * mat;
-        mat = Matrix4::CreateTranslation(m_position) * mat;
+        mat = mat * Matrix4::CreateScale(m_scale);
+        mat = mat * Matrix4::CreateRotationZ(m_rotation.z);
+        mat = mat * Matrix4::CreateRotationY(m_rotation.y);
+        mat = mat * Matrix4::CreateRotationX(m_rotation.x);
+        mat = mat * Matrix4::CreateTranslation(m_position);
 
         return mat;
     }
 
     void Move(Vector3 offset) { m_position += offset; }
     void Rotate(Vector3 rotation) { m_rotation += rotation; }
+    void SetScale(Vector3 scale) { m_scale = scale; }
 
 protected:
     Vector3 m_position;
