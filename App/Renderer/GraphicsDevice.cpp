@@ -53,6 +53,9 @@ void GraphicsDevice::Initialize()
     m_context =  emscripten_webgl_create_context("display", &attribs);
     emscripten_webgl_make_context_current(m_context);
 
+    glEnable(GL_DEPTH_TEST);
+    glEnable(GL_STENCIL_TEST);
+
     Log("Graphics Device Initialized");
 }
 
@@ -195,7 +198,7 @@ void GraphicsDevice::SetUniformMatrix(Shader* pShader, const std::string& strPar
     GLuint loc = glGetUniformLocation(pShader->GetShader(), strParam.c_str());
     if (loc == -1)
     {
-        Log("Param: " + strParam + " does not exist in shader");
+        // Log("Param: " + strParam + " does not exist in shader");
         return;
     }
 
@@ -207,7 +210,7 @@ void GraphicsDevice::SetUinformFloat(Shader* pShader, FloatParameter* pParam)
     GLuint loc = glGetUniformLocation(pShader->GetShader(), pParam->Name.c_str());
     if (loc == -1)
     {
-        printf("Float Param: %s does not exist in shader\n", pParam->Name.c_str());
+        // printf("Float Param: %s does not exist in shader\n", pParam->Name.c_str());
         return;
     }
 
@@ -246,6 +249,7 @@ void GraphicsDevice::Render(Camera* pCamera, RenderObject* pRO)
     // SetUniformMatrix(pShader, "ViewMatrix", pCamera->GetViewMatrix());
     Matrix4 mat = pRO->GetTransform()->GetMatrix() * pCamera->GetViewProjection();
     SetUniformMatrix(pShader, "WorldViewProjectionMatrix", mat);
+    SetUniformMatrix(pShader, "WorldMatrix", pRO->GetTransform()->GetMatrix());
 
     std::vector<FloatParameter*>& floatParams = pMaterial->GetFloatParams();
     for (unsigned int i = 0; i < floatParams.size(); ++i)
