@@ -10,7 +10,7 @@ void Renderer::Initialize()
     m_pDevice = new GraphicsDevice(); 
     m_pDevice->Initialize();
 
-    m_pDevice->SetClearColor(0.05f, 0.1f, 0.05f);
+    m_pDevice->SetClearColor(0.25f, 0.25f, 0.25f);
 
     Log("Renderer Initialized");
 }
